@@ -1,0 +1,77 @@
+.container {
+  border: 1px solid #aaa;
+  padding: 10px;
+  position: relative;
+  width: 100%;
+}
+.item {
+  background: #777;
+  height: 60px;
+  margin: 20px;
+  width: 200px;
+}
+.item:hover {
+  cursor: pointer;
+}
+#popupMsg {
+  background-color: #666;
+  border-radius: 6px;
+  box-shadow: 3px 3px 5px #999;
+  color: #f2f2f2;
+  display: none;
+  padding: 10px;
+  position: absolute;
+  text-align: center;
+  /*width: 400px;*/
+}
+
+.tooltip {
+  border-bottom: 1px dotted #ddd;
+  display: inline-block;
+  padding: 5px 5px 2px;
+  position: relative;
+}
+.tooltip:hover {
+  cursor: pointer;
+}
+.tooltip-text {
+  background-color: #333;
+  border-radius: 4px;
+  color: #fff;
+  font-family: verdana;
+  font-size: 12px;
+  left: 105%;
+  padding: 5px;
+  position: absolute;
+  opacity: 0;
+  text-align: center;
+  top: 4px;
+  transition: opacity 1s cubic-bezier(0.67,-0.22, 0.41, 1.26);
+  visibility: hidden;
+  width: 120px;
+  z-index: 1;
+}
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+.tooltip .tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+.tooltip .tooltip-text::before {
+  border-color: transparent black transparent transparent ;
+  border-width: 5px;
+  border-style: solid;
+  content: '';
+  position: absolute;
+  margin-top: -5px;
+  right: 100%;
+  top: 50%;
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>understanding async fn calls</title>
+  </head>
+  <body>
+
+
+
+    <script>
+      (function() {
+        var f1 = function(x) {
+            return function(){console.log(x);}
+        }
+          for (var i = 0; i < 6; i++) {
+            setTimeout( f1(i), i*500);
+          }
+      })();
+    </script>
+  </body>
+</html>

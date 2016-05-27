@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Modal Dialog</title>
+    <link rel="stylesheet" href="css/modal.css" media="screen" title="no title" charset="utf-8">
+    <script src="js/modal.js"></script>
+  </head>
+  <body>
+    <div id="modal">
+      <span id="close" onclick="fadeOutModal(event);">&times;</span>
+    </div>
+    <button type="button" onclick="fadeInModal();">FadeIn Modal</button>
+    <div id="droppingModal">
+      <span id="close" onclick="dropOutModal(event);">&times;</span>
+    </div>
+    <button type="button" onclick="dropDownModal();">DropDown Modal</button>
+    <div id="modalContainer">
+      <div id="bouncingDropModal">
+        <span id="close" onclick="bouncingDropOutModal(event);">&times;</span>
+      </div>
+    </div>
+    <button type="button" onclick="bouncingDropModal();">BounceDrop Modal</button>
+    <div id="growingModal">
+      <span id="close" onclick="growOutModal(event);">&times;</span>
+    </div>
+    <button type="button" onclick="growInModal();">GrowIn Modal</button>
+  </body>
+</html>

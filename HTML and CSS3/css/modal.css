@@ -1,0 +1,157 @@
+body {
+  margin: 0;
+  text-align: center;
+}
+button {
+  background: linear-gradient(#bbb,#777);
+  font-size: 20px;
+  margin-top: 10px;
+  padding: 6px 10px;
+}
+
+/*          FadeIn-FadeOut Modal         */
+#modal {
+  background-color: #666;
+  display: none;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 1s;
+  width: 100%;
+  z-index: 999;
+}
+#modal #close {
+  background: #aaa;
+  border-radius: 30px;
+  color: #f2f2f2;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 6px;
+  padding-bottom: 1px;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+#modal #close:hover {
+  color: white;
+  background-color: #888;
+}
+#modal #close:active {
+  background-color: #444;
+}
+
+
+/*         DropIn-DropOut Modal           */
+#droppingModal {
+  background-color: #666;
+  display: none;
+  height: 100%;
+  left: 0;
+  margin-top: -100%;
+  opacity: .9;
+  position: absolute;
+  top: 0;
+  transition: margin-top .6s linear;
+  width: 100%;
+}
+#droppingModal #close {
+  background: #aaa;
+  border-radius: 30px;
+  color: #f2f2f2;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 6px;
+  padding-bottom: 1px;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+#droppingModal #close:hover {
+  color: white;
+  background-color: #888;
+}
+#droppingModal #close:active {
+  background-color: #444;
+}
+
+
+/*      BounceIn-BounceOut Modal      */
+#modalContainer {
+  height: 100%;
+  left: 0;
+  display: none;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  top: 0;
+}
+#bouncingDropModal {
+  background-color: #666;
+  display: none;
+  height: 100%;
+  left: 0;
+  margin-top: -100%;
+  opacity: .9;
+  position: absolute;
+  top: 0;
+  //transition: margin-top .6s cubic-bezier(0.6,-0.3, 0.6, 1.51);
+  transition: margin-top .6s cubic-bezier(0.67,-0.22, 0.41, 1.26);
+  width: 100%;
+}
+#bouncingDropModal #close {
+  background: #aaa;
+  border-radius: 30px;
+  color: #f2f2f2;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 6px;
+  padding-bottom: 1px;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+#bouncingDropModal #close:hover {
+  color: white;
+  background-color: #888;
+}
+#bouncingDropModal #close:active {
+  background-color: #444;
+}
+
+
+
+/*           GrowIn-GrowOut Modal*/
+#growingModal {
+  background-color: #666;
+  display: none;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transform: scale(0);
+  transition: transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+  width: 100%;
+  z-index: 999;
+}
+#growingModal #close {
+  background: #aaa;
+  border-radius: 30px;
+  color: #f2f2f2;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 6px;
+  padding-bottom: 1px;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+#growingModal #close:hover {
+  color: white;
+  background-color: #888;
+}
+#growingModal #close:active {
+  background-color: #444;
+}

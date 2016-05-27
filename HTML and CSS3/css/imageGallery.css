@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+}
+.container {
+  width: 100%;
+  display: flex;
+}
+.col-md-3 {
+  width: 24.99%;
+}
+.imageTile {
+  background: #ddd;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 5px;
+  position: relative;
+  overflow: hidden;
+  height: 250px;
+}
+.imageTile:hover {
+  box-shadow: 0 0 20px #1a4;
+}
+.imageTile img {
+  width: 100%;
+}
+.imageTile p {
+  background: #aaa;
+  bottom: 0;
+  margin: 0;
+  padding: 16px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+.imageTile .close {
+  background: #eee;
+  border-radius: 30px;
+  font-weight: bold;
+  padding: 0 5px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+.imageTile .close:hover {
+  background: #666;
+  color: white;
+}
+
+#modal {
+  background: rgba(0,0,0,.9);
+  display: none;
+  min-height: 100%;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 1s;
+  width: 100%;
+  text-align: center;
+  z-index: 999;
+}
+
+#modal #close {
+  background: #aaa;
+  border-radius: 30px;
+  color: #f2f2f2;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 6px;
+  padding-bottom: 1px;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+#modal #close:hover {
+  color: white;
+  background-color: #888;
+}
+#modal img {
+  margin-top: 40px;
+  width: 80%;
+  max-width: 1200px;
+  box-shadow: 5px 2px 20px black;
+}
+#modal p {
+  color: #f2f2f2;
+}
