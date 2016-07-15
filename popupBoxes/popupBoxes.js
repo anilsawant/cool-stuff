@@ -1,6 +1,7 @@
 let popupAlert = function(msg, about, done) {
   let popupOverlay = document.createElement('div');
   popupOverlay.className = 'popupOverlay';
+  popupOverlay.id = 'popupOverlay';
   let flexContainer = '<div class="flex-container-center"><div class="popup-box">'
                       +  '<p class="popup-title">Alert Title</p><p class="popup-body">Alert body</p>'
                       +  '<div class="popup-footer">'
@@ -10,12 +11,23 @@ let popupAlert = function(msg, about, done) {
   let btnOk = document.createElement('button');
   btnOk.className = 'btn btn-success btnOk';
   btnOk.innerText = 'Ok';
-  btnOk.addEventListener('click', function() {
+  btnOk.addEventListener('click', function(evt) {
     if (typeof done === 'function')
       done(true);
     donePopup();
   });
-
+  btnOk.addEventListener('keydown', function(evt) {
+    evt.preventDefault();
+    if (evt.keyCode === 13) {
+      if (typeof done === 'function')
+        done(true);
+      donePopup();
+    } else if (evt.keyCode === 27) {
+      if (typeof done === 'function')
+        done(false);
+      donePopup();
+    }
+  });
   popupOverlay.querySelector('.popup-footer').appendChild(btnOk);
   document.body.appendChild( popupOverlay );
   popupOverlay.querySelector('.popup-title').innerText = 'Alert';
@@ -28,13 +40,15 @@ let popupAlert = function(msg, about, done) {
   setTimeout(function () {
     popupOverlay.style.opacity = '1';
     popupOverlay.querySelector('.popup-box').style.transform = 'scale(1)';
+    btnOk.focus();
   }, 10);
 
   let donePopup = function() {
     popupOverlay.querySelector('.popup-box').style.transform = 'scale(0)';
     popupOverlay.style.opacity = '0';
     setTimeout(function () {
-      document.body.removeChild(popupOverlay);
+      if (document.getElementById('popupOverlay'))
+        document.body.removeChild(popupOverlay);
     }, 500);
   }
 }
@@ -42,6 +56,7 @@ let popupAlert = function(msg, about, done) {
 let popopConfirm = function(msg, about, done) {
   let popupOverlay = document.createElement('div');
   popupOverlay.className = 'popupOverlay';
+  popupOverlay.id = 'popupOverlay';
   let flexContainer = '<div class="flex-container-center"><div class="popup-box">'
                       +  '<p class="popup-title">Alert Title</p><p class="popup-body">Alert body</p>'
                       +  '<div class="popup-footer">'
@@ -56,7 +71,18 @@ let popopConfirm = function(msg, about, done) {
       done(true);
     donePopup();
   });
-
+  btnOk.addEventListener('keydown', function(evt) {
+    evt.preventDefault();
+    if (evt.keyCode === 13) {
+      if (typeof done === 'function')
+        done(true);
+      donePopup();
+    } else if (evt.keyCode === 27) {
+      if (typeof done === 'function')
+        done(false);
+      donePopup();
+    }
+  });
   let btnCancel = document.createElement('button');
   btnCancel.className = 'btn btn-danger btnCancel';
   btnCancel.innerText = 'Cancel';
@@ -65,7 +91,18 @@ let popopConfirm = function(msg, about, done) {
       done(false);
     donePopup();
   });
-
+  btnCancel.addEventListener('keydown', function(evt) {
+    evt.preventDefault();
+    if (evt.keyCode === 13) {
+      if (typeof done === 'function')
+        done(true);
+      donePopup();
+    } else if (evt.keyCode === 27) {
+      if (typeof done === 'function')
+        done(false);
+      donePopup();
+    }
+  });
   popupOverlay.querySelector('.popup-footer').appendChild(btnOk);
   popupOverlay.querySelector('.popup-footer').appendChild(btnCancel);
   document.body.appendChild( popupOverlay );
@@ -83,13 +120,15 @@ let popopConfirm = function(msg, about, done) {
   setTimeout(function () {
     popupOverlay.style.opacity = '1';
     popupOverlay.querySelector('.popup-box').style.transform = 'scale(1)';
+    btnOk.focus();
   }, 10);
 
   let donePopup = function() {
     popupOverlay.querySelector('.popup-box').style.transform = 'scale(0)';
     popupOverlay.style.opacity = '0';
     setTimeout(function () {
-      document.body.removeChild(popupOverlay);
+      if (document.getElementById('popupOverlay'))
+        document.body.removeChild(popupOverlay);
     }, 500);
   }
 }
@@ -97,6 +136,7 @@ let popopConfirm = function(msg, about, done) {
 let popupPrompt = function(msg, about, done) {
   let popupOverlay = document.createElement('div');
   popupOverlay.className = 'popupOverlay';
+  popupOverlay.id = 'popupOverlay';
   let flexContainer = '<div class="flex-container-center"><div class="popup-box">'
                       +  '<p class="popup-title">Alert Title</p>'
                       +  '<p class="popup-body">Alert body</p>'
@@ -106,7 +146,17 @@ let popupPrompt = function(msg, about, done) {
 
   let txtInput = document.createElement('input');
   txtInput.className = 'form-control';
-
+  txtInput.addEventListener('keydown', function(evt) {
+    if (evt.keyCode === 13) {
+      if (typeof done === 'function')
+        done(txtInput.value);
+      donePopup();
+    } else if (evt.keyCode === 27) {
+      if (typeof done === 'function')
+        done(false);
+      donePopup();
+    }
+  });
   let btnOk = document.createElement('button');
   btnOk.className = 'btn btn-success btnOk';
   btnOk.innerText = 'Ok';
@@ -140,13 +190,15 @@ let popupPrompt = function(msg, about, done) {
   setTimeout(function () {
     popupOverlay.style.opacity = '1';
     popupOverlay.querySelector('.popup-box').style.transform = 'scale(1)';
+    txtInput.focus();
   }, 10);
 
   let donePopup = function() {
     popupOverlay.querySelector('.popup-box').style.transform = 'scale(0)';
     popupOverlay.style.opacity = '0';
     setTimeout(function () {
-      document.body.removeChild(popupOverlay);
+      if (document.getElementById('popupOverlay'))
+        document.body.removeChild(popupOverlay);
     }, 500);
   }
 }
