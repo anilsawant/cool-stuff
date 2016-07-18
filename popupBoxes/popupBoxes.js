@@ -53,7 +53,7 @@ let popupAlert = function(msg, about, done) {
   }
 }
 
-let popopConfirm = function(msg, about, done) {
+let popupConfirm = function(msg, about, done) {
   let popupOverlay = document.createElement('div');
   popupOverlay.className = 'popupOverlay';
   popupOverlay.id = 'popupOverlay';
