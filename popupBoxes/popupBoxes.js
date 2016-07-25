@@ -7,16 +7,8 @@ let popupAlert = function(msg, about, done) {
                       +  '<div class="popup-footer">'
                       +  '</div></div></div>';
   popupOverlay.innerHTML = flexContainer;
-
-  let btnOk = document.createElement('button');
-  btnOk.className = 'btn btn-success btnOk';
-  btnOk.innerText = 'Ok';
-  btnOk.addEventListener('click', function(evt) {
-    if (typeof done === 'function')
-      done(true);
-    donePopup();
-  });
-  btnOk.addEventListener('keydown', function(evt) {
+  popupOverlay.tabIndex = 1;
+  popupOverlay.addEventListener('keydown', function(evt) {
     evt.preventDefault();
     if (evt.keyCode === 13) {
       if (typeof done === 'function')
@@ -27,6 +19,15 @@ let popupAlert = function(msg, about, done) {
         done(false);
       donePopup();
     }
+  });
+
+  let btnOk = document.createElement('button');
+  btnOk.className = 'btn btn-success btnOk';
+  btnOk.innerText = 'Ok';
+  btnOk.addEventListener('click', function(evt) {
+    if (typeof done === 'function')
+      done(true);
+    donePopup();
   });
   popupOverlay.querySelector('.popup-footer').appendChild(btnOk);
   document.body.appendChild( popupOverlay );
@@ -62,6 +63,19 @@ let popupConfirm = function(msg, about, done) {
                       +  '<div class="popup-footer">'
                       +  '</div></div></div>';
   popupOverlay.innerHTML = flexContainer;
+  popupOverlay.tabIndex = 1;
+  popupOverlay.addEventListener('keydown', function(evt) {
+    evt.preventDefault();
+    if (evt.keyCode === 13) {
+      if (typeof done === 'function')
+        done(true);
+      donePopup();
+    } else if (evt.keyCode === 27) {
+      if (typeof done === 'function')
+        done(false);
+      donePopup();
+    }
+  });
 
   let btnOk = document.createElement('button');
   btnOk.className = 'btn btn-success btnOk';
@@ -71,18 +85,6 @@ let popupConfirm = function(msg, about, done) {
       done(true);
     donePopup();
   });
-  btnOk.addEventListener('keydown', function(evt) {
-    evt.preventDefault();
-    if (evt.keyCode === 13) {
-      if (typeof done === 'function')
-        done(true);
-      donePopup();
-    } else if (evt.keyCode === 27) {
-      if (typeof done === 'function')
-        done(false);
-      donePopup();
-    }
-  });
   let btnCancel = document.createElement('button');
   btnCancel.className = 'btn btn-danger btnCancel';
   btnCancel.innerText = 'Cancel';
@@ -90,18 +92,6 @@ let popupConfirm = function(msg, about, done) {
     if (typeof done === 'function')
       done(false);
     donePopup();
-  });
-  btnCancel.addEventListener('keydown', function(evt) {
-    evt.preventDefault();
-    if (evt.keyCode === 13) {
-      if (typeof done === 'function')
-        done(true);
-      donePopup();
-    } else if (evt.keyCode === 27) {
-      if (typeof done === 'function')
-        done(false);
-      donePopup();
-    }
   });
   popupOverlay.querySelector('.popup-footer').appendChild(btnOk);
   popupOverlay.querySelector('.popup-footer').appendChild(btnCancel);
@@ -143,10 +133,13 @@ let popupPrompt = function(msg, about, done) {
                       +  '<div class="popup-footer">'
                       +  '</div></div></div>';
   popupOverlay.innerHTML = flexContainer;
+  popupOverlay.tabIndex = 1;
 
   let txtInput = document.createElement('input');
   txtInput.className = 'form-control';
-  txtInput.addEventListener('keydown', function(evt) {
+
+  popupOverlay.addEventListener('keydown', function(evt) {
+    evt.preventDefault();
     if (evt.keyCode === 13) {
       if (typeof done === 'function')
         done(txtInput.value);
@@ -157,6 +150,7 @@ let popupPrompt = function(msg, about, done) {
       donePopup();
     }
   });
+
   let btnOk = document.createElement('button');
   btnOk.className = 'btn btn-success btnOk';
   btnOk.innerText = 'Ok';
