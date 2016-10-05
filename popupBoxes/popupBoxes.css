@@ -11,10 +11,8 @@
   z-index: 10;/*should be heighest*/
 }
 .popupOverlay .flex-container-center {
-  align-items: center;
   display: flex;
   height: 100%;
-  justify-content: center;
   position: absolute;
   width: 100%;
 }
@@ -22,6 +20,7 @@
   background-color: #eee;
   border-radius: 5px;
   box-shadow: 0 0 6px #fff;
+  margin: auto;
   max-width: 96%;
   position: relative;
   transform: scale(0);

@@ -1,0 +1,47 @@
+
+/*      ******************************
+						Sliding/Fading Messages
+        ******************************         */
+.msg-container {
+  background-color: transparent;
+  bottom: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  color: #eee;
+  display: flex;
+  min-height: 50px;
+  left: 0;
+  padding: 10px;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+}
+.msg-container.error {
+  background-color: #c9302c;
+  border: 1px solid #ac2925;
+}
+.msg-container.warning {
+  background-color: #f0ad4e;
+  border: 1px solid #eea236;
+}
+.msg-container.success {
+  background-color: #5cb85c;
+  border: 1px solid #4cae4c;
+}
+.msg-container .msg {
+  margin: auto;
+  display: block;
+}
+.msg-container .close-msg {
+	color: #fff;
+	cursor: pointer;
+	float: right;
+	font-size: 24px;
+  margin-top: auto;
+  margin-bottom: auto;
+	position: relative;;
+	left: calc(100% - 12px);
+}
+.msg-container .close-msg:active {
+	color: #ddd;
+}

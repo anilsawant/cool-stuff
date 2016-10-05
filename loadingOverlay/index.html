@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Loading...</title>
+    <link rel="stylesheet" href="loading-overlay.css" media="screen" title="no title">
+    <script src="loading-overlay.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="div1" style="border:1px solid #333;height: 400px; width: 400px;resize:both;overflow:auto;">
+
+    </div>
+
+    <button type="button" name="button" onclick="displayLoading(document.querySelector('.div1'))">Show</button>
+    <button type="button" name="button" onclick="doneLoading(document.querySelector('.div1'))">Done</button>
+  </body>
+</html>

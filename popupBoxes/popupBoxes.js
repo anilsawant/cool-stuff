@@ -10,11 +10,11 @@ let popupAlert = function(msg, about, done) {
   popupOverlay.tabIndex = 1;
   popupOverlay.addEventListener('keydown', function(evt) {
     evt.preventDefault();
-    if (evt.keyCode === 13) {
+    if (evt.which === 13) {
       if (typeof done === 'function')
         done(true);
       donePopup();
-    } else if (evt.keyCode === 27) {
+    } else if (evt.which === 27) {
       if (typeof done === 'function')
         done(false);
       donePopup();
@@ -66,11 +66,11 @@ let popupConfirm = function(msg, about, done) {
   popupOverlay.tabIndex = 1;
   popupOverlay.addEventListener('keydown', function(evt) {
     evt.preventDefault();
-    if (evt.keyCode === 13) {
+    if (evt.which === 13) {
       if (typeof done === 'function')
         done(true);
       donePopup();
-    } else if (evt.keyCode === 27) {
+    } else if (evt.which === 27) {
       if (typeof done === 'function')
         done(false);
       donePopup();
@@ -140,11 +140,11 @@ let popupPrompt = function(msg, about, done) {
 
   popupOverlay.addEventListener('keydown', function(evt) {
     evt.preventDefault();
-    if (evt.keyCode === 13) {
+    if (evt.which === 13) {
       if (typeof done === 'function')
         done(txtInput.value);
       donePopup();
-    } else if (evt.keyCode === 27) {
+    } else if (evt.which === 27) {
       if (typeof done === 'function')
         done(false);
       donePopup();
