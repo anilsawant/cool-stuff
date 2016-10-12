@@ -1,4 +1,11 @@
-/******** Message Banners at the bottom ********/
+/**
+ * Function to display a 'Message Banner' in the HTML body-element
+ * It accepts a 'msg' and its 'type' as arguments.
+ * Creates and Appends the 'Msg Banner' to the body
+ *
+ * @param msg as String. It is the message to be displayed
+ * @param type as String. It can be 'success', 'warning', or 'error'
+ */
 let showMsgBanner = function (msg, type) {
 	let msgContainer = document.createElement('div');
 	msgContainer.className = 'msg-container';;
@@ -6,7 +13,7 @@ let showMsgBanner = function (msg, type) {
 	document.body.appendChild(msgContainer);
 	let timeoutHandle = setTimeout(function () {
 		document.body.removeChild(msgContainer)
-	}, 5000);
+	}, 5000);// clear the banner after 5s
 	msgContainer.addEventListener('click', function (evt) {
 		if (evt.target.className.includes('close-msg')) {
 			clearTimeout(timeoutHandle);
@@ -14,14 +21,23 @@ let showMsgBanner = function (msg, type) {
 		}
 	});
   switch (type.toUpperCase()) {
-    case "SUCCESS":
-      msgContainer.className += ' success';
+    case "DEFAULT":
+      msgContainer.className += ' default';
       break;
-    case "ERROR":
-			msgContainer.className += ' error';
+    case "PRIMARY":
+			msgContainer.className += ' primary';
+      break;
+    case "SUCCESS":
+			msgContainer.className += ' success';
+			break;
+		case "INFO":
+			msgContainer.className += ' info';
       break;
     case "WARNING":
 			msgContainer.className += ' warning';
+      break;
+    case "ERROR":
+			msgContainer.className += ' error';
       break;
   }
 	setTimeout(function () {
@@ -30,7 +46,13 @@ let showMsgBanner = function (msg, type) {
 };
 
 
-/******** Win10 style Notifications ********/
+/**
+ * Function to display a 'Win10 style notification' in the HTML body-element
+ * It accepts a 'msg' as an argument.
+ * Creates and Appends the 'Notification' to the body. The notification slides in/out from the right-bottom corner.
+ * Important Note: Multiple notifications are queued and displayed one after other. 
+ * @param msg as String. It is the message to be displayed
+ */
 window.showNotification = function (msg) {
   window.showNotification.msgQueue.push(msg);
   if (window.showNotification.msgQueue.length == 1) {

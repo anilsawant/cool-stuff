@@ -14,23 +14,36 @@
   min-height: 50px;
   left: 0;
   opacity: 0;
-  padding: 10px;
+  padding: 10px 20px 10px 10px;
   position: fixed;
   text-align: center;
   transition: opacity .8s ease;
   width: 100%;
 }
-.msg-container.error {
-  background-color: #c9302c;
-  border: 1px solid #ac2925;
+.msg-container.default {
+	color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.msg-container.primary {
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+.msg-container.success {
+  background-color: #5cb85c;
+  border: 1px solid #4cae4c;
+}
+.msg-container.info {
+  background-color: #5bc0de;
+  border-color: #46b8da;
 }
 .msg-container.warning {
   background-color: #f0ad4e;
   border: 1px solid #eea236;
 }
-.msg-container.success {
-  background-color: #5cb85c;
-  border: 1px solid #4cae4c;
+.msg-container.error {
+  background-color: #c9302c;
+  border: 1px solid #ac2925;
 }
 .msg-container .msg {
   margin: auto;
@@ -44,7 +57,10 @@
   margin-top: auto;
   margin-bottom: auto;
 	position: relative;;
-	left: calc(100% - 12px);
+	left: calc(100%);
+}
+.msg-container.default .close-msg {
+	color: #999;
 }
 .msg-container .close-msg:active {
 	color: #ddd;
