@@ -5,7 +5,7 @@
  *
  * @param elm. The element on which 'loading...' has to be shown
  */
-function displayLoading( elm ) {
+function displayLoading( elm , msg) {
 	if (elm) {
 		if( !elm.querySelector('.loading-outer') ) {
 			var loadingOuter = document.createElement('div');
@@ -13,7 +13,12 @@ function displayLoading( elm ) {
 			var loading = document.createElement('div');
 			loading.setAttribute( 'class', "loading spin-acw" );//add class spin-acw or spin-cw
 			loadingOuter.appendChild( loading );
-
+			if (msg) {
+				let msgP = document.createElement('p');
+				msgP.setAttribute( 'class',"loading-text" );
+				msgP.textContent = msg;
+				loadingOuter.appendChild( msgP );
+			}
 			elm.appendChild( loadingOuter );
 			let computedStyles = window.getComputedStyle( elm );
 			elm.style.originalPosition = computedStyles['position'] || computedStyles.getPropertyValue('position' );

@@ -20,7 +20,8 @@ let showMsgBanner = function (msg, type) {
 			document.body.removeChild(msgContainer)
 		}
 	});
-  switch (type.toUpperCase()) {
+	type = type ? type.toUpperCase() : 'DEFAULT';
+  switch (type) {
     case "DEFAULT":
       msgContainer.className += ' default';
       break;
@@ -50,7 +51,7 @@ let showMsgBanner = function (msg, type) {
  * Function to display a 'Win10 style notification' in the HTML body-element
  * It accepts a 'msg' as an argument.
  * Creates and Appends the 'Notification' to the body. The notification slides in/out from the right-bottom corner.
- * Important Note: Multiple notifications are queued and displayed one after other. 
+ * Important Note: Multiple notifications are queued and displayed one after other.
  * @param msg as String. It is the message to be displayed
  */
 window.showNotification = function (msg) {
