@@ -1,0 +1,46 @@
+html, body, .container {
+  height: 100%;
+}
+.btn-sm.btn-end-call {
+  padding: 2px 5px;
+}
+.container {
+  background-color: #f2f2f2;
+}
+.container * {
+  outline: none !important;
+}
+.experts-container {
+  border-right: 1px solid #ddd;
+}
+.device {
+  color: #aaa;
+  min-height: 300px;
+  padding: 5px;
+  position: relative;
+  text-align: left;
+}
+.stat {
+  border: 1px solid #eee;
+  border-radius: 2px;
+  margin-top: 5px;
+  padding: 5px;
+}
+.stat span {
+  color: #333;
+  font-weight: bold;
+  font-family: monospace;
+}
+.device .operations {
+  bottom: 5px;
+  display: block;
+  left: 5px;
+  position: absolute;
+  width: calc(100% - 10px);
+}
+.operations  input[type=text] {
+  margin-bottom: 5px;
+}
+.device .operations.disabled {
+  pointer-events: none;
+}

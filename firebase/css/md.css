@@ -1,0 +1,54 @@
+/******** Containers ********/
+.md-container {
+  background-color: #ddd;
+  box-shadow: 1px 2px 2px #777, -1px 3px 2px #777;
+}
+
+
+/******** Slabs ********/
+.md-card {
+  background-color: #fff;
+  border-radius: 2px;
+  /*box-shadow: 1px 1px 1px rgba(200,200,200,.5), -1px 1px 1px rgba(200,200,200,.5),
+              0 1px 0 rgba(0,0,0,.4), 0 2px 0 rgba(0,0,0,.1), 0 3px 1px rgba(50,50,50,.1);*/
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2),0 1px 1px 0 rgba(0,0,0,0.14),0 2px 1px -1px rgba(0,0,0,0.12);
+}
+
+/******** Bubbles ********/
+.md-bubble {
+  border-radius: 50%;
+  background-color: #555;
+  box-shadow: 1px 2px 1px #222;
+  color: #ccc;
+  cursor: pointer;
+  padding: 10px;
+}
+.md-bubble:hover {
+  background-color: #5a5a5a;
+  color: #eee;
+}
+.md-bubble:active {
+  background-color: #4a4a4a;
+  color: #bbb;
+}
+
+/******** Light and Shadow ********/
+.md-key-light {
+  box-shadow: 1px 1px 1px rgba(150,150,150,.5), -1px 1px 1px rgba(150,150,150,.5), 0 5px 5px rgba(40,40,40,.5);
+}
+.md-ambient-light {
+  box-shadow: 0 0 5px rgba(150,150,150,.5);
+}
+.md-key-ambient-light {
+  box-shadow: 0 0 5px rgba(150,150,150,.5), 1px 1px 1px rgba(150,150,150,.5), -1px 1px 1px rgba(150,150,150,.5), 0 5px 5px rgba(40,40,40,.5);
+}
+
+
+/******** Navs ********/
+.md-top-nav {
+  background-color: #fff;
+  box-shadow: 0 2px 2px #aaa;
+  left: 0;
+  position: absolute;
+  top: 0;
+}

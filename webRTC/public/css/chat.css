@@ -1,0 +1,69 @@
+.chat-container {
+  bottom: 5px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  position: fixed;
+  right: 5px;
+}
+.chat-container .chat-box {
+  float: left;
+  width: 100%;
+}
+.chat-container ul.chat {
+  list-style: none;
+  float: left;
+  margin: 15px 0;
+  max-height: 350px;
+  max-width: 300px;
+  overflow-y: auto;
+  padding: 0;
+  width: 300px;
+}
+.chat-container ul.chat li.msg {
+  border-radius: 4px;
+  margin: 5px 10px;
+  max-width: 240px;
+  padding: 5px 10px;
+  position: relative;
+  width: 80%;
+}
+.chat-container ul.chat li.msg.own {
+  border: 1px solid rgb(50,205,50);
+  box-shadow: 1px 1px 2px rgb(50,205,50);
+  float: left;
+}
+.chat-container ul.chat li.msg.own::before {
+  border-color: transparent rgb(50,205,50) transparent transparent ;
+  border-width: 5px;
+  border-style: solid;
+  content: '';
+  position: absolute;
+  margin-top: -5px;
+  right: 100%;
+  top: 50%;
+}
+.chat-container ul.chat li.msg.other {
+  border: 1px solid rgb(148,0,211);
+  box-shadow: -1px 1px 2px rgb(148,0,211);
+  float: right;
+}
+.chat-container ul.chat li.msg.other::before {
+  border-color: transparent transparent transparent rgb(148,0,211);
+  border-width: 5px;
+  border-style: solid;
+  content: '';
+  position: absolute;
+  margin-top: -5px;
+  left: 100%;
+  top: 50%;
+}
+.chat-container .chat-input {
+  clear: both;
+  border-top: 1px solid #ddd;
+  padding: 5px 10px;
+}
+.chat-container .chat-input .txtInputMsg {
+  border-radius: 4px;
+  min-width: 200px;
+  padding: 3px 6px;
+}

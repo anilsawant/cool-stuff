@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebRTC w/ Firebase Signalling</title>
+    <script src="public/js/firebase/firebase-app.js" charset="utf-8"></script>
+    <script src="public/js/firebase/firebase-database.js" charset="utf-8"></script>
+    <script src="public/js/adapter.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <video width="400px" height="300px" id="localVideo" autoplay poster="public/img/posterimage.jpg"></video>
+    <video width="400px" height="300px" id="remoteVideo" autoplay poster="public/img/posterimage.jpg"></video>
+
+    <div class="btns">
+      <button type="button" id="btnAccept">Accept</button>
+      <button type="button" id="btnEndCall">End Call</button>
+    </div>
+    <div class="">
+      <p style="font-weight:bold;">Connection State change Logs:</p>
+      <ol id="log"></ol>
+    </div>
+    <script src="public/js/receiver.js" charset="utf-8"></script>
+  </body>
+</html>

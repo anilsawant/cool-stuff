@@ -66,17 +66,17 @@ window.showNotification.show = function (msg) {
   notfContainer.style.backgroundColor =  '#555';notfContainer.style.bottom =  '100px';notfContainer.style.border =  '1px solid #555';
   notfContainer.style.borderRight =  'none';notfContainer.style.boxShadow =  '0 0 5px #555, inset 1px 1px 0 #777, inset -1px 0 0 #777';
   notfContainer.style.cursor =  'pointer';notfContainer.style.padding =  '5px 10px 5px 5px';notfContainer.style.position =  'fixed';
-  notfContainer.style.right =  '-220px';notfContainer.style.transition = 'right 0.5s cubic-bezier(0, 0.73, 0.24, 1.2)';
-  notfContainer.style.width =  '200px';notfContainer.style.zIndex =  100;
+  notfContainer.style.right =  '-320px';notfContainer.style.transition = 'right 0.5s cubic-bezier(0, 0.73, 0.24, 1.2)';
+  notfContainer.style.width =  '300px';notfContainer.style.zIndex =  100;
   let notificationSound = document.createElement('audio');
   notificationSound.style.display = 'none';notificationSound.setAttribute('autoplay', true);notificationSound.src = 'notify.wav';
   notfContainer.appendChild(notificationSound);
   let notfBody = document.createElement('div');
   notfBody.style.border = '1px solid #666';notfBody.style.boxShadow = 'inset 0 0 3px #666';notfBody.style.display = 'flex';
-  notfBody.style.minHeight = '60px';notfBody.style.padding = '5px';notfBody.style.width = '200px';
+  notfBody.style.minHeight = '60px';notfBody.style.padding = '5px';notfBody.style.width = '300px';
   let notification = document.createElement('div');
   notification.style.backgroundColor = '#575757';notification.style.color = '#f2f2f2';notification.style.fontFamily = 'monospace';
-  notification.style.margin = 'auto';notification.style.padding = '3px';notification.style.textAlign = 'center';
+  notification.style.margin = 'auto';notification.style.padding = '3px 12px 3px 3px';notification.style.textAlign = 'center';
   notification.innerText = msg;
 
   notfBody.appendChild(notification);
@@ -87,7 +87,7 @@ window.showNotification.show = function (msg) {
   }, 10);//show the notification
   setTimeout(function () {
     notfContainer.style.transition =  'right .5s ease';
-    notfContainer.style.right = '-220px';
+    notfContainer.style.right = '-320px';
     setTimeout(function () {
       document.body.removeChild(notfContainer);
       if (window.showNotification.msgQueue.length) {
