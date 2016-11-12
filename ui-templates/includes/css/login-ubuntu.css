@@ -1,0 +1,53 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+html {
+  background: linear-gradient(#381d36, #a85d49);
+}
+body {
+  /*background: linear-gradient(45deg,red,yellow);*/
+  background: radial-gradient(farthest-corner at 30% 70%, rgba(168,93,73,.5), rgba(56,29,54,.5));
+}
+.card {
+  background: rgba(20,20,20,.4);
+  border-radius: 10px;
+  /*box-shadow: 0 -1px 0 rgba(150,150,150,.2);*/
+  color: #ddd;
+  padding: 10px;
+  position: relative;
+  left: 50px;
+  min-height: 120px;
+  top: 40%;
+  width: 400px;
+}
+.username {
+  background: transparent;
+  border: none;
+  box-sizing: border-box;
+  color: #ddd;
+  font-family: monospace;
+  font-size: 24px;
+  font-weight: bold;
+  outline: none;
+  width: 100%;
+}
+.password {
+  background: rgba(20,20,20,.5);
+  border: none;
+  border-radius: 5px;
+  bottom: 10px;
+  box-sizing: border-box;
+  color: #ddd;
+  font-family: monospace;
+  font-size: 24px;
+  font-weight: bold;
+  height: 50px;
+  left: 10px;
+  outline: none;
+  padding: 10px;
+  position: absolute;
+  width: calc(100% - 20px);
+}

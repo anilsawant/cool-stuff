@@ -1,0 +1,43 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+body {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.bg-blur {
+  background-image: url(../img/3.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(5px);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+.card {
+  margin: auto;
+}
+input {
+  background-color: rgba(255,255,255,.4);
+  border-radius: 6px;
+  border: none;
+  color: #fff;
+  font-family: monospace;
+  font-size: 16px;
+  height: 30px;
+  margin-bottom: 10px;
+  outline: none;
+  padding: 5px 10px;
+  text-align: left;
+  width: 200px;
+  z-index: 1;
+}
+input::-webkit-input-placeholder {
+  color: #000;
+}
