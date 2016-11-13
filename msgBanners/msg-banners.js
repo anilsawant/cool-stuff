@@ -22,9 +22,6 @@ let showMsgBanner = function (msg, type) {
 	});
 	type = type ? type.toUpperCase() : 'DEFAULT';
   switch (type) {
-    case "DEFAULT":
-      msgContainer.className += ' default';
-      break;
     case "PRIMARY":
 			msgContainer.className += ' primary';
       break;
@@ -39,6 +36,9 @@ let showMsgBanner = function (msg, type) {
       break;
     case "ERROR":
 			msgContainer.className += ' error';
+      break;
+		default:
+      msgContainer.className += ' default';
       break;
   }
 	setTimeout(function () {
