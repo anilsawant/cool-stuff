@@ -1,0 +1,60 @@
+.ds-container {
+  padding-top: 10px;
+}
+.ds-container #btnDeleteFiles {
+  background-color: #ea6312;
+  border-color: #ea6312;
+  font-family: segoe-ui-bold;
+  font-size: 14pt;
+  margin-top: 5px;
+}
+.ds-box {
+  background-color: #222;
+  color: #333;
+  font-family: segoe-ui;
+  padding: 20px 20px 10px;
+  margin-top: -15px;
+}
+.ds-box .ds-col {
+  padding: 3px 2px;
+}
+.ds-box .ds-col textarea {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: 100%;
+}
+.ds-box .ds-col select {
+  border-radius: 5px;
+  height: 40px;
+  font-size: 14pt;
+  padding: 2px 8px;
+  width: 100%;
+}
+.ds-box .ds-col .form-control {
+  font-size: 14pt;
+  height: 40px;
+}
+.ds-label {
+  background-color: #7f7f7f;
+  border-radius: 5px;
+  color: #fff;
+  display: block;
+  font-family: segoe-ui-bold;
+  font-size: 14pt;
+  font-weight: bold;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+.search-icon {
+  background: url(../img/SearchIcon-Default.png);
+  cursor: pointer;
+  height: 48px;
+  position: absolute;
+  right: 5px;
+  top: 0;
+  width: 48px;
+}
+.search-icon:active {
+  background: url(../img/SearchIcon-Active.png);
+}

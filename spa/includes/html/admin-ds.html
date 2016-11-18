@@ -1,0 +1,59 @@
+<div class="ds-container">
+  <div class="container ds-box">
+    <div class="row">
+      <div class="col-xs-3 ds-col">
+        <select class="" name="">
+          <option value="option">Select Doc Type</option>
+        </select>
+      </div>
+      <div class="col-xs-9 ds-col">
+        <input type="text" class="form-control" placeholder="Search with document name">
+        <span class="search-icon"></span>
+      </div>
+    </div>
+    <div class="row table-container">
+      <div class="table-title">
+        <span>Documents Found</span>
+      </div>
+      <div class="table-overflow">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th class="col-xs-1">Select</th>
+              <th class="col-xs-3">Doc Name</th>
+              <th class="col-xs-2">Doc Type</th>
+              <th class="col-xs-3">Checksum</th>
+              <th class="col-xs-3">Date Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="genie-checkbox" name="selectedDoc" data-value="1"></span></td>
+              <td>Cell 12</td>
+              <td>Cell 13</td>
+              <td>Cell 14</td>
+              <td>Cell 15</td>
+            </tr>
+            <tr>
+              <td><span class="genie-checkbox" name="selectedDoc" data-value="2"></span></td>
+              <td>Cell 12</td>
+              <td>Cell 13</td>
+              <td>Cell 14</td>
+              <td>Cell 15</td>
+            </tr>
+            <tr>
+              <td><span class="genie-checkbox" name="selectedDoc" data-value="3"></span></td>
+              <td>Cell 12</td>
+              <td>Cell 13</td>
+              <td>Cell 14</td>
+              <td>Cell 15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /.table-container -->
+    <div class="row">
+      <button type="button" id="btnDeleteFiles" class="btn btn-warning btn-block" onclick="deleteFiles();">Delete Files</button>
+    </div>
+  </div>
+</div>

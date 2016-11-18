@@ -1,0 +1,111 @@
+<div class="kc-container">
+  <form class="container kc-box" id="searchForm" action="http://localhost:8080/FAScriptService/service/solution/inputDetails" method="get">
+    <div class="row">
+      <div class="col-xs-3 kc-col">
+        <span class="kc-label">Device Type</span>
+      </div>
+      <div class="col-xs-5 kc-col">
+        <input type="text" class="form-control" placeholder="e.g. Laptop, Printer" name="QA0Key">
+        <span class="kc-info-icon"></span>
+      </div>
+      <div class="col-xs-4 kc-col">
+        <input type="text" class="form-control" placeholder="Hint Text" name="QA0Value">
+        <span class="kc-info-icon"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 kc-col">
+        <span class="kc-label">Brand</span>
+      </div>
+      <div class="col-xs-5 kc-col">
+        <input type="text" class="form-control" placeholder="e.g. Brand Name" name="QA1Key">
+        <span class="kc-info-icon"></span>
+      </div>
+      <div class="col-xs-4 kc-col">
+        <input type="text" class="form-control" placeholder="Hint Text" name="QA1Value">
+        <span class="kc-info-icon"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 kc-col">
+        <span class="kc-label">Series</span>
+      </div>
+      <div class="col-xs-5 kc-col">
+        <input type="text" class="form-control" placeholder="e.g. Series" name="QA2Key">
+        <span class="kc-info-icon"></span>
+      </div>
+      <div class="col-xs-4 kc-col">
+        <input type="text" class="form-control" placeholder="Hint Text" name="QA2Value">
+        <span class="kc-info-icon"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 kc-col">
+        <span class="kc-label">Model</span>
+      </div>
+      <div class="col-xs-5 kc-col">
+        <input type="text" class="form-control" placeholder="Model" name="QA3Key">
+        <span class="kc-info-icon"></span>
+      </div>
+      <div class="col-xs-4 kc-col">
+        <input type="text" class="form-control" placeholder="Hint Text" name="QA3Value">
+        <span class="kc-info-icon"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 kc-col">
+        <span class="kc-label">Issue Category</span>
+      </div>
+      <div class="col-xs-5 kc-col">
+        <input type="text" class="form-control" placeholder="Hint Text" name="QA4Key">
+        <span class="kc-info-icon"></span>
+      </div>
+      <div class="col-xs-4 kc-col">
+        <input type="text" class="form-control" placeholder="Hint Text" name="QA4Value">
+        <span class="kc-info-icon"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 kc-col">
+        <span class="kc-label">File Input</span>
+      </div>
+      <div class="col-xs-3 kc-col">
+        <select class="" name="SourceType" id="selectInputType">
+          <option value="option">Select Input</option>
+        </select>
+      </div>
+      <div class="col-xs-3 kc-col">
+        <select class="" name="fileType" id="selectFileType" >
+          <option value="option">Select File Type</option>
+        </select>
+      </div>
+      <div class="col-xs-3 kc-col">
+        <select class="" name="PDFType" id="selectCategoryType">
+          <option value="option">Select Category</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 kc-col">
+        <span class="kc-label">Section</span>
+      </div>
+      <div class="col-xs-9 kc-col">
+        <input type="text" class="form-control" placeholder="Mention Section Details" name="section">
+        <span class="kc-info-icon"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 kc-col">
+        <span class="kc-label flat-bottom">File Path, URL, or Text Description</span>
+      </div>
+      <div class="col-xs-12 kc-col">
+        <textarea rows="8" cols="40" name="url"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 kc-col">
+        <button type="submit" class="btn btn-success btn-block" id="btnUploadFile">Upload File</button>
+      </div>
+    </div>
+  </form>
+</div>

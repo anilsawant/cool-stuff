@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Single Page App</title>
+    <link rel="stylesheet" href="includes/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="includes/css/popupBoxes.css" media="screen">
+    <link rel="stylesheet" href="includes/css/main.css" media="screen">
+    <!-- View specific stylesheets will be inserted here-->
+    <link id="pageStylesheet" rel="stylesheet" href="" media="screen">
+    <script src="includes/js/popupBoxes.js"></script>
+  </head>
+  <body>
+    <!-- Navbar will be inserted here -->
+    <div class="container-fluid" id="app-navbar"></div>
+    <!-- App Views will be rendered here-->
+    <div class="container-fluid" id="app-view"></div>
+    <!-- Overlay used while loading new view -->
+    <div id="overlay"></div>
+
+    <script src="includes/js/jquery.min.js"></script>
+    <script src="includes/js/bootstrap.min.js"></script>
+    <script src="includes/js/app.js"></script>
+    <script src="includes/js/controller/loginController.js"></script>
+    <script src="includes/js/controller/navbarController.js"></script>
+    <script src="includes/js/controller/dsController.js"></script>
+  </body>
+</html>

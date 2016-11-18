@@ -1,0 +1,34 @@
+.home-container {
+  color: #fff;
+  font-family: segoe-ui-bold;
+  height: 100%;
+  padding-top: 10px;
+  width: 100%;
+}
+.home-container .dashboard-header {
+  border-bottom: 1px solid #7f7f7f;
+  padding-bottom: 30px;
+  margin-top: 30px;
+  text-align: center;
+}
+.home-container .dashboard-header span {
+  font-size: 20pt;
+  font-weight: bold;
+}
+.tasks-container {
+  padding-top: 20px;
+}
+.tasks-container .task {
+  text-align: center;
+}
+.tasks-container .task a {
+  border-radius: 300px;
+  display: block;
+}
+.task-primary-text {
+  font-size: 16pt;
+}
+.task-secondary-text {
+  color: #7f7f7f;
+  font-size: 14pt;
+}

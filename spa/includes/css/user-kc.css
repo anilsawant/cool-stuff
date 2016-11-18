@@ -1,0 +1,58 @@
+.kc-container {
+  padding-top: 10px;
+}
+.kc-box {
+  background-color: #222;
+  color: #333;
+  font-family: segoe-ui;
+  padding: 20px 20px 10px;
+  margin-top: -15px;
+}
+.kc-box .kc-col {
+  padding: 3px 2px;
+}
+.kc-box .kc-col textarea {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: 100%;
+}
+.kc-box .kc-col select {
+  border-radius: 5px;
+  height: 40px;
+  font-size: 14pt;
+  padding: 2px 8px;
+  width: 100%;
+}
+.kc-box .kc-col .form-control {
+  font-size: 14pt;
+  height: 40px;
+}
+.kc-label {
+  background-color: #7f7f7f;
+  border-radius: 5px;
+  color: #fff;
+  display: block;
+  font-family: segoe-ui-bold;
+  font-size: 14pt;
+  font-weight: bold;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+.kc-label.flat-bottom {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: -6px;
+}
+.kc-info-icon {
+  background: url(../img/InfoIcon-Default.png);
+  height: 36px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 36px;
+}
+.kc-info-icon:hover {
+  background: url(../img/InfoIcon-Over.png);
+  cursor: pointer;
+}
