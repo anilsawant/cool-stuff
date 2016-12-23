@@ -1,0 +1,81 @@
+<div class="container-fluid full-height">
+  <div class="row">
+    <h4 style="font-family:segoe-ui-bold;color:#555;margin:10px 0 0;">Library</h4>
+    <p style="color:#aaa;font-size:12px;margin-bottom:15px;">Browse through the library for Troubleshooting Guides and Videos</p>
+  </div>
+  <div class="row device-details">
+    <div class="col-sm-4">
+      <label class="row-label">Device Details</label>
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control no-select" id="selectDeviceType">
+        <option value="">Select Type</option>
+        <option value="">Loading...</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control no-select" id="selectDeviceBrand">
+        <option value="">Select Brand</option>
+        <option value="">Loading...</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control no-select" id="selectDeviceSeries">
+        <option value="">Select Series</option>
+        <option value="">Loading...</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control no-select" id="selectDeviceModel">
+        <option value="">Select Model</option>
+        <option value="">Loading...</option>
+      </select>
+    </div>
+  </div>
+  <div class="row videos-container md-card">
+    <div class="col-xs-12 no-select text-center header disabled">
+      All available resources here
+      <!-- <span class="icon-add-video pull-right" title="Add Video"></span> -->
+      <span class="glyphicon glyphicon-plus" title="Add a new resource"></span>
+    </div>
+    <div class="body col-xs-12">
+      <div class="row full-height videos-container-msg">
+        Start by selecting the device details above
+      </div>
+      <div class="video-grid row" style="display:none;">
+        <!--<div class="col-xs-6 col-sm-4">
+          <div class="video-tile">
+            <span class="full-screen" title="Full screen">[]</span>
+            <span class="delete" title="Delete video" data-fullpath="">&times;</span>
+            <video src="" preload="metadata"></video>
+            <div class="video-overlay">
+              <span class="glyphicon glyphicon-play"></span>
+              <div class="video-metadata">
+                <p class="video-desc overflow-ellipsis">LCD Replacement</p><span class="time-created">October 7, 2016</span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div class="overlay">
+  <div class="card add-video md-card-top">
+    <span class="close-card">&times;</span>
+    <h3 style="margin:-15px 0 15px;">Add a new video</h3>
+    <input type="file" name="name" class="input-file">
+    <input type="text"class="form-control txt-video-description" placeholder="Add video description here...">
+    <button type="button" class="btn-block btn-green btn-start-upload">Upload</button>
+    <div class="uploading-div" style="display:none;">
+      <span class="status">Uploading...</span>
+      <div class="progress">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+          0%
+        </div>
+      </div>
+      <button type="button" class="btn-orange btn-pause-resume-upload">Pause</button>
+      <button type="button" class="btn-green btn-cancel-upload">Cancel</button>
+    </div>
+  </div>
+</div>

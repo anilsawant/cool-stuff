@@ -1,0 +1,73 @@
+body {
+  background-color: #333;
+}
+input::-webkit-input-placeholder,
+input::-moz-placeholder,
+input:-ms-input-placeholder,
+input:-moz-placeholder {
+  color: #fff !important;
+  font-weight: bold;
+  opacity: 1;
+}
+.input {
+  background-color: #fff;
+  color: #555;
+  display: flex;
+}
+.input .icon {
+  font-size: 24px;
+  margin: auto 15px;
+}
+.input input {
+  border: none;
+  width: calc(100% - 50px);
+}
+.login-card {
+  background-color: #404040;
+  box-shadow: 2px 2px 4px #131313;
+  color: #fff;
+  font-size: 16px;
+  margin: auto;
+  padding: 30px 40px;
+  width: 400px;
+}
+.login-card>* {
+  margin-bottom: 10px;
+  height: 40px;
+}
+.login-card>*:last-child {
+  margin-bottom: 0;
+}
+.login-card * {
+  outline: none !important;
+}
+.login-card .header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.login-card .remember {
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+.login-card .remember span.fa-square-o {
+  cursor: pointer;
+  font-size: 30px;
+  margin-right: 10px;
+}
+.login-card .remember span.fa-check-square-o {
+  cursor: pointer;
+  font-size: 30px;
+  margin-right: 6px;
+}
+span.forgot-password {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  text-decoration: underline;
+}
+span.fa-logo {
+  display: inline-block;
+}

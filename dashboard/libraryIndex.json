@@ -1,0 +1,15 @@
+{
+  "documents": {
+    "battery_dell_desktop": ["path_to_battery_doc_1", "path_to_battery_doc_2", "path_to_battery_doc_3"],
+    "dell_desktop_lcd": ["path_to_lcd_doc_1","path_to_lcd_doc_2"],
+    "dell_eseries_laptop" : ["path_to_eseries_doc_1"]
+  },
+  "videos": {
+    "battery_dell_desktop": ["path_to_battery_video_1"],
+    "15r_dell_eseries_laptop": ["path_to_15r_video_1"]
+  },
+  "images": {
+    "battery_dell_desktop": ["path_to_battery_image_1"],
+    "15r_dell_eseries_laptop": ["path_to_15r_image_1"]
+  }
+}

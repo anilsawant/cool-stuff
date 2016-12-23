@@ -1,0 +1,72 @@
+<div class="display-flex full-height">
+  <div class="card manage-devices margin-auto md-card">
+    <div class="device-selection type">
+      <div class="input-group">
+        <select class="form-control select-device type">
+          <option>Select Device Type</option>
+          <option>Loading...</option>
+        </select>
+        <span class="input-group-btn">
+          <button class="btn btn-default add-slider-toggle glyphicon glyphicon-plus" title="Add a new device type" type="button"></button>
+          <button class="btn btn-default glyphicon glyphicon-remove" title="Remove this device type" type="button"></button>
+        </span>
+      </div><!-- /input-group -->
+      <div class="add-slider" style="display:none;">
+        <input type="text" class="form-control" placeholder="Enter a new device type">
+        <button type="button" class="btn btn-success btn-add type">Add</button>
+        <button type="button" class="btn btn-warning" onclick="$(this.parentNode).slideUp();">Cancel</button>
+      </div>
+    </div>
+    <div class="device-selection brand">
+      <div class="input-group disabled">
+        <select class="form-control select-device brand">
+          <option>Select Device Brand</option>
+          <option>Loading...</option>
+        </select>
+        <span class="input-group-btn">
+          <button class="btn btn-default add-slider-toggle glyphicon glyphicon-plus" title="Add a new device brand" type="button"></button>
+          <button class="btn btn-default glyphicon glyphicon-remove" title="Remove this device brand" type="button"></button>
+        </span>
+      </div><!-- /input-group -->
+      <div class="add-slider" style="display:none;">
+        <input type="text" class="form-control" placeholder="Enter a new device brand">
+        <button type="button" class="btn btn-success btn-add brand">Add</button>
+        <button type="button" class="btn btn-warning" onclick="$(this.parentNode).slideUp();">Cancel</button>
+      </div>
+    </div>
+    <div class="device-selection series">
+      <div class="input-group disabled">
+        <select class="form-control select-device series">
+          <option>Select Device Series</option>
+          <option>Loading...</option>
+        </select>
+        <span class="input-group-btn">
+          <button class="btn btn-default add-slider-toggle glyphicon glyphicon-plus" title="Add a new device series" type="button"></button>
+          <button class="btn btn-default glyphicon glyphicon-remove" title="Remove this device series" type="button"></button>
+        </span>
+      </div><!-- /input-group -->
+      <div class="add-slider" style="display:none;">
+        <input type="text" class="form-control" placeholder="Enter a new device Series">
+        <button type="button" class="btn btn-success btn-add series">Add</button>
+        <button type="button" class="btn btn-warning" onclick="$(this.parentNode).slideUp();">Cancel</button>
+      </div>
+    </div>
+    <div class="device-selection model">
+      <div class="input-group disabled">
+        <select class="form-control select-device model">
+          <option>Select Device Model</option>
+          <option>Loading...</option>
+        </select>
+        <span class="input-group-btn">
+          <button class="btn btn-default add-slider-toggle glyphicon glyphicon-plus" title="Add a new device model" type="button"></button>
+          <button class="btn btn-default glyphicon glyphicon-remove" title="Remove this device model" type="button"></button>
+        </span>
+      </div><!-- /input-group -->
+      <div class="add-slider" style="display:none;">
+        <input type="text" class="form-control" placeholder="Enter a new device model">
+        <button type="button" class="btn btn-success btn-add model">Add</button>
+        <button type="button" class="btn btn-warning" onclick="$(this.parentNode).slideUp();">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="full-height" style="display:flex">
+  <div class="login-card">
+    <div class="header">
+      <span class="fa-logo"></span>
+      <span class="app-title">Admin Portal</span>
+    </div>
+    <div class="input">
+      <span class="icon fa fa-user"></span>
+      <input type="text" placeholder="Admin ID" id="txtLoginId">
+    </div>
+    <div class="input">
+      <span class="icon fa fa-unlock-alt"></span>
+      <input type="password" placeholder="Password" id="txtPassword">
+    </div>
+    <div class="remember">
+      <span class="fa fa-square-o" id="rememberMe" onclick="this.className=this.className.includes('fa-square-o')?this.className='fa fa-check-square-o':this.className='fa fa-square-o';"></span>
+      <span class="cur-pointer" onclick="this.parentNode.querySelector('span.fa').click();">Remember Me</span>
+      <span class="forgot-password">Forgot Password?</span>
+    </div>
+    <button type="button" class="btn-block btn-green" id="btnLogin">Login</button>
+  </div>
+</div>

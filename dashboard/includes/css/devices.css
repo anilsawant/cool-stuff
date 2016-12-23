@@ -1,0 +1,51 @@
+.card.manage-devices {
+  padding: 30px;
+  width: 440px;
+}
+.card.manage-devices>* {
+  min-height: 40px;
+  margin-bottom: 15px;
+}
+.card.manage-devices>*:last-child {
+  margin-bottom: 0;
+}
+.card.manage-devices * {
+  border-radius: 0;
+  outline: none !important;
+}
+.card.manage-devices .input-group.disabled {
+  pointer-events: none;
+}
+.card.manage-devices .input-group.disabled select,
+.card.manage-devices .input-group.disabled .btn  {
+  background-color: #d9d9d9;
+}
+.card.manage-devices .add-slider {
+  display: flex;
+  margin-top: 3px;
+  margin-bottom: 10px;
+}
+.card.manage-devices .add-slider input {
+  display: inline-block;
+  /*width: calc(100% - 50px);*/
+}
+.card.manage-devices .add-slider button {
+  height: 34px;
+  padding: 6px;
+  min-width: 60px;
+}
+.card.manage-devices .input-group > * {
+  z-index: 0 !important;
+}
+.card.manage-devices .input-group-btn .btn {
+  height: 44px;
+  top: 0;
+}
+.card.manage-devices .input-group-btn .glyphicon-remove.disabled {
+  background-color: #d9d9d9;
+  opacity: 1;
+  pointer-events: none;
+}
+.card.manage-devices select.form-control {
+  height: 44px;
+}

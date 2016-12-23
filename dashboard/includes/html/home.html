@@ -1,0 +1,50 @@
+<nav class="row navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#appNavCollapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand fa-logo" href="#home"></a>
+      <!-- <span style="color:#eee;font-size:18px;display:inline-block;margin-top:8px;font-family:segoe-ui-bold;">Admin Home</span> -->
+    </div>
+    <div class="collapse navbar-collapse padding-none" id="appNavCollapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+          <ul class="dropdown-menu user-card md-card-top">
+            <li style="padding: 15px 30px 15px 20px;">
+              <img class="user-image" src="includes/img/profile-pic-default.png" alt="" />
+              <div class="user-details">
+                <span class="name">User</span>
+                <span class="desig">Admin</span>
+              </div>
+            </li>
+            <li class="sign-out">
+              Sign Out
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="row" id="main-view">
+  <div class="col-xs-2 full-height" style="background-color:#fff;box-shadow:1px 0 0 rgba(220,220,220,.4),2px 0 0 rgba(220,220,220,.1)">
+    <p style="color:#aaa;margin:20px 5px 10px;font-size:16px;">
+      Administration
+    </p>
+    <ul class="user-operations">
+      <li><a href="#devices" class="nav-link"><span class="glyphicon glyphicon-print"></span> Devices </a></li>
+      <li><a href="#staff" class="nav-link"><span class="glyphicon glyphicon-user"></span> Staff </a></li>
+      <li><a href="#library" class="nav-link"><span class="glyphicon glyphicon-book"></span> Library </a></li>
+    </ul>
+  </div>
+  <div class="col-xs-10 full-height" style="overflow:hidden;">
+    <div class="full-height slide-fade" id="sub-view">
+
+    </div>
+  </div>
+</div>
