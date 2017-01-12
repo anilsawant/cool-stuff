@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Notification</title>
+    <link rel="stylesheet" href="msg-banners.css">
+  </head>
+  <body>
+    <input type="text" placeholder="Enter a msg here" id="txtInputMsg">
+    <button type="button" name="button" id="btnShowWin10">Show Win10 Style Notification</button>
+    <button type="button" name="button" id="btnShowMD">Show MD Style Notification</button>
+    <button type="button" name="button" id="btnShowBanner">Show Msg Banner</button>
+
+    <script src="notification.js"></script>
+    <script>
+      let i= 0;
+      window.onload = function () {
+        let btnShowWin10 = document.getElementById('btnShowWin10');
+        let btnShowMD = document.getElementById('btnShowMD');
+        let btnShowBanner = document.getElementById('btnShowBanner');
+        let txtInputMsg = document.getElementById('txtInputMsg');
+
+        btnShowWin10.addEventListener('click', function () {
+          let msg = txtInputMsg.value.trim() || ("This is a msg - " + i++);
+          window.notification.showWin10Style(msg);
+        });
+        btnShowMD.addEventListener('click', function () {
+          let msg = txtInputMsg.value.trim() || "This is a msg";
+          window.notification.showMDStyle(msg);
+        });
+        btnShowBanner.addEventListener('click', function () {
+          let msg = txtInputMsg.value.trim() || "This is a msg";
+          window.notification.showMsgBanner(msg, 'success');
+        });
+      }
+    </script>
+  </body>
+</html>

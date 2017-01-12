@@ -56,8 +56,6 @@
 	font-size: 24px;
   margin-top: auto;
   margin-bottom: auto;
-	position: relative;;
-	left: calc(100%);
 }
 .msg-container.default .close-msg {
 	color: #999;
