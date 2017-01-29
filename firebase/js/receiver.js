@@ -5,9 +5,8 @@ window.onload = function () {
   let engineersReference = window.engineersReference = window.fdb.ref("engineers");
   let exchangeReference = window.exchangeReference = window.fdb.ref("exchange");
 
-  setupExchange(expertsReference, engineersReference, exchangeReference);
   setupExperts(expertsReference, engineersReference, exchangeReference);
-  setupEngineers(expertsReference, engineersReference, exchangeReference);
+  window.isExchangeSetup = false;
 }
 
 let initializeFirebase = function (reinitialize) {
@@ -33,49 +32,76 @@ let initializeFirebase = function (reinitialize) {
 };
 
 let setupExchange = function (expertsReference, engineersReference, exchangeReference) {
-
-  //listen to notifications from the Telephone-Exchange
-  exchangeReference.child('10001').child('from').on('value', function (snapshot) {
-    let callFrom = window.callFrom = snapshot.val();
-    if (callFrom) {
-      console.log("INFO: Call setup request from ", callFrom , '@', new Date());
-      window.$experts.each(function (i) {
-        let $expert = $(this);
-        if ($expert.attr('data-loginId') == 10001) {
-          $expert.find('.operations').hide();
-          $expert.attr('data-callFrom', callFrom)
-            .find('.call-from').text(callFrom).parent().fadeIn();
-        }
-      });
-      //Call setup acknowledgement sent back to callFrom
-      exchangeReference.child(callFrom).child('from').set('10001').then(function () {
-        exchangeReference.child(callFrom).child('sdp').set("Dummy SDP of Expert 10001");
-      });
-    }
-  });
-  exchangeReference.child('10001').child('sdp').on('value', function (snapshot) {
-    let remoteSDP = snapshot.val();
-    if (remoteSDP) {
-      console.log("INFO: remoteSDP received @", new Date(), remoteSDP);
-    }
-  });
-  exchangeReference.child('10001').child('msg').on('value', function (snapshot) {
-    let remoteMsg = snapshot.val();
-    if (remoteMsg) {
-      console.log("INFO: remoteMsg:" + remoteMsg + " received @", new Date());
-      if (remoteMsg == 'endcall') {
-        window.$experts.each(function (i) {
-          let $expert = $(this);
-          if ($expert.attr('data-loginId') == 10001) {
-            exchangeReference.child(10001).remove().then(function () {
+  if (!window.isExchangeSetup) {
+    window.isExchangeSetup = true;
+    //listen to notifications from the Telephone-Exchange
+    exchangeReference.child('10001').child('from').on('value', function (snapshot) {
+      let callFrom = window.callFrom = snapshot.val();
+      if (callFrom) {
+        console.log("INFO: Call setup request from ", callFrom , '@', new Date());
+        expertsReference.child('10001').child('status').once('value', function (snap) {
+          let currentStatus = snap.val();
+          console.log('currentStatus = ',currentStatus);
+          if (currentStatus == 'locked') {
+            window.$experts.each(function (i) {
+              let $expert = $(this),
+                  loginId = $expert.attr('data-loginId');
+              if (loginId == 10001) {
+                $expert.find('.operations').hide();
+                $expert.attr('data-callFrom', callFrom)
+                  .find('.call-from').text(callFrom).parent().fadeIn();
+              }
+            });
+            //Call setup acknowledgement sent back to callFrom
+            window.exchangeReference.child('10001').transaction(function(currentExchangeStats) {
+              console.log("INFO: currentExchangeStats: ", currentExchangeStats);
+              if (currentExchangeStats && currentExchangeStats.isRemoving) {
+                return '';
+              }
+              return currentExchangeStats;
+            }, function (err, committed, snapshot) {
+              console.log("Done", err, committed, snapshot.val());
+              if (err) {
+                console.log("Setting from-exchange failed.");
+              } else {
+                if (committed == true ) {
+                  console.log("Exchange from set");
+                  expertsReference.child('10001').child('status').set('busy').then(function () {
+                    exchangeReference.child(callFrom).child('from').set('10001');
+                    exchangeReference.child(callFrom).child('sdp').set("Dummy SDP of Expert 10001");
+                  });
+                } else if (committed == false) {
+                  console.log('From could not be exchanged. Call is terminating.');
+                }
+              }
+            });
+          } else {
+            console.log("Can't connect call. My status is ", currentStatus);
+          }
+        })
+      }
+    });
+    exchangeReference.child('10001').child('sdp').on('value', function (snapshot) {
+      let remoteSDP = snapshot.val();
+      if (remoteSDP) {
+        console.log("INFO: remoteSDP received @", new Date(), remoteSDP);
+      }
+    });
+    exchangeReference.child('10001').child('msg').on('value', function (snapshot) {
+      let remoteMsg = snapshot.val();
+      if (remoteMsg) {
+        console.log("INFO: remoteMsg:" + remoteMsg + " received @", new Date());
+        if (remoteMsg == 'endcall') {
+          window.$experts.each(function (i) {
+            let $expert = $(this),
+                loginId = $expert.attr('data-loginId');
+            if (loginId == 10001) {
               expertsReference.child(10001).transaction(function(currentExpertStats) {
-                console.log("INFO: Transaction End Call stats: ", currentExpertStats);
                 if (currentExpertStats) {
                   if (currentExpertStats.status == 'busy') {
                     currentExpertStats.status = "online";
                     return currentExpertStats;
                   }
-                  console.log("WARN: Transaction End Call Expert " + 10001 + " is " + currentExpertStats.status + ".");
                   return;
                 }
                 return currentExpertStats;
@@ -84,69 +110,89 @@ let setupExchange = function (expertsReference, engineersReference, exchangeRefe
                   console.error(err);
                 } else {
                   let updatedExpertsStats = snapshot ? snapshot.val() : null;
-                  console.log("INFO: Transaction End Call complete : " , err, committed, updatedExpertsStats);
                   if (updatedExpertsStats) {
                     if (committed == true ) {
-                      console.log("SUCCESS: Transaction End Call successful.");
                         $expert.attr('data-callFrom','')
                           .find('.call-from').text('NA').parent().hide();
                     } else if (committed == false) {
-                      console.log("WARN: Transaction End Call failed.");
                     }
                   } else {
                     console.log("ERROR: Transaction End Call Expert " + 10001 + " does not exist.");
                   }
                 }
               });//expertsReference.child(expertId).transaction
-            });
-          }
-        });
-      }
-    }
-  });
-
-  //listen to notifications from the Telephone-Exchange
-  exchangeReference.child('10002').child('from').on('value', function (snapshot) {
-    let callFrom = window.callFrom = snapshot.val();
-    if (callFrom) {
-      console.log("INFO: Call setup request from ", callFrom , '@', new Date());
-      window.$experts.each(function (i) {
-        let $expert = $(this);
-        if ($expert.attr('data-loginId') == 10002) {
-          $expert.find('.operations').hide();
-          $expert.attr('data-callFrom', callFrom)
-            .find('.call-from').text(callFrom).parent().fadeIn();
+            }
+          });
         }
-      });
-      //Call setup acknowledgement sent back to callFrom
-      exchangeReference.child(callFrom).child('from').set('10002').then(function () {
-        exchangeReference.child(callFrom).child('sdp').set("Dummy SDP of Expert 10002");
-      });
-    }
-  });
-  exchangeReference.child('10002').child('sdp').on('value', function (snapshot) {
-    let remoteSDP = snapshot.val();
-    if (remoteSDP) {
-      console.log("INFO: remoteSDP received @", new Date(), remoteSDP);
-    }
-  });
-  exchangeReference.child('10002').child('msg').on('value', function (snapshot) {
-    let remoteMsg = snapshot.val();
-    if (remoteMsg) {
-      console.log("INFO: remoteMsg:" + remoteMsg + " received @", new Date());
-      if (remoteMsg == 'endcall') {
-        window.$experts.each(function (i) {
-          let $expert = $(this);
-          if ($expert.attr('data-loginId') == 10002) {
-            exchangeReference.child(10002).remove().then(function () {
+      }
+    });
+
+    //listen to notifications from the Telephone-Exchange
+    exchangeReference.child('10002').child('from').on('value', function (snapshot) {
+      let callFrom = window.callFrom = snapshot.val();
+      if (callFrom) {
+        console.log("INFO: Call setup request from ", callFrom , '@', new Date());
+        expertsReference.child('10002').child('status').on('value', function (snap) {
+          let currentStatus = snap.val();
+          if (currentStatus == 'locked') {
+            window.$experts.each(function (i) {
+              let $expert = $(this);
+              if ($expert.attr('data-loginId') == 10002) {
+                $expert.find('.operations').hide();
+                $expert.attr('data-callFrom', callFrom)
+                  .find('.call-from').text(callFrom).parent().fadeIn();
+              }
+            });
+            //Call setup acknowledgement sent back to callFrom
+            window.exchangeReference.child(callFrom).transaction(function(currentExchangeStats) {
+              console.log("INFO: currentExchangeStats: ", currentExchangeStats);
+              if (currentExchangeStats && !currentExchangeStats.isRemoving) {
+                currentExchangeStats.from = '10002';
+                return currentExchangeStats;
+              }
+              return currentExchangeStats;
+            }, function (err, committed, snapshot) {
+              console.log("Done", err, committed, snapshot.val());
+              if (err) {
+                console.log("Setting from-exchange failed.");
+              } else {
+                if (committed == true ) {
+                  console.log("Exchange from set");
+                  expertsReference.child('10002').child('status').set('busy').then(function () {
+                    exchangeReference.child(callFrom).child('sdp').set("Dummy SDP of Expert 10002");
+                  });
+                } else if (committed == false) {
+                  console.log('From could not be exchanged. Call is terminating.');
+                }
+              }
+            });
+          } else {
+            console.log("Can't connect call. My status is ", currentStatus);
+          }
+        })
+      }
+    });
+    exchangeReference.child('10002').child('sdp').on('value', function (snapshot) {
+      let remoteSDP = snapshot.val();
+      if (remoteSDP) {
+        console.log("INFO: remoteSDP received @", new Date(), remoteSDP);
+      }
+    });
+    exchangeReference.child('10002').child('msg').on('value', function (snapshot) {
+      let remoteMsg = snapshot.val();
+      if (remoteMsg) {
+        console.log("INFO: remoteMsg:" + remoteMsg + " received @", new Date());
+        if (remoteMsg == 'endcall') {
+          window.$experts.each(function (i) {
+            let $expert = $(this),
+                loginId = $expert.attr('data-loginId');
+            if (loginId == 10002) {
               expertsReference.child(10002).transaction(function(currentExpertStats) {
-                console.log("Transaction Called Expert stats END: ", currentExpertStats);
                 if (currentExpertStats) {
                   if (currentExpertStats.status == 'busy') {
                     currentExpertStats.status = "online";
                     return currentExpertStats;
                   }
-                  console.log("INFO: Expert " + 10002 + " is " + currentExpertStats.status + ".");
                   return;
                 }
                 return currentExpertStats;
@@ -155,137 +201,28 @@ let setupExchange = function (expertsReference, engineersReference, exchangeRefe
                   console.error(err);
                 } else {
                   let updatedExpertsStats = snapshot ? snapshot.val() : null;
-                  console.log("Transaction complete : " , err, committed, updatedExpertsStats);
                   if (updatedExpertsStats) {
                     if (committed == true ) {
-                      console.log("Ended call successfully");
                         $expert.attr('data-callFrom','')
                           .find('.call-from').text('NA').parent().hide();
                     } else if (committed == false) {
-                      console.log("WARN: Call end failed.");
                     }
                   } else {
                     console.log("Expert " + 10002 + " does not exist.");
                   }
                 }
               });//expertsReference.child(expertId).transacrion
-            });
-          }
-        });
-      }
-    }
-  });
-
-  //listen to notifications from the Telephone-Exchange
-  exchangeReference.child('20001').child('from').on('value', function (snapshot) {
-    let ackFrom = snapshot.val();
-    if (ackFrom) {
-      console.log("Setup acknowledgement received from ", ackFrom);
-      console.log("Offer @", new Date());
-      window.$engineers.each(function (i) {
-        let $engineer = $(this);
-        if ($engineer.attr('data-loginId') == 20001) {
-          $engineer.find('.operations').hide();
-          $engineer.attr('data-callTo', ackFrom)
-            .find('.call-to').text(ackFrom).parent().fadeIn();
+            }
+          });
         }
-      });
-      exchangeReference.child(ackFrom).child('sdp').set("Dummy SDP of Engineer 20001")
-      .then(function () {
-        console.log('SDP shared from Engineer side');
-      });
-    }
-  });
-  exchangeReference.child('20001').child('icecandidate').on('value', function (snapshot) {
-    let remoteCandidate = snapshot.val();
-    if (remoteCandidate) {
-      console.log('remoteCandidate', remoteCandidate);
-    }
-  });
-  exchangeReference.child('20001').child('sdp').on('value', function (snapshot) {
-    let remoteSDP = snapshot.val();
-    if (remoteSDP) {
-      console.log("INFO: remoteSDP received @", new Date(), remoteSDP);
-    }
-  });
-  exchangeReference.child('20001').child('msg').on('value', function (snapshot) {
-    let remoteMsg = snapshot.val();
-    if (remoteMsg) {
-      console.log("INFO: remoteMsg:" + remoteMsg + " received @", new Date());
-      if (remoteMsg == 'endcall') {
-        window.$engineers.each(function (i) {
-          let $engineer = $(this);
-          if ($engineer.attr('data-loginId') == 20001) {
-            exchangeReference.child(20001).remove().then(function () {
-              engineersReference.child(20001)
-              .child("status").set("online")
-              .then(function () {
-                $engineer.attr('data-callTo','')
-                  .find('.call-to').text('NA').parent().hide();
-              });
-            });
-          }
-        });
       }
-    }
-  });
+    });
+  } else {
+    console.log("WARN: Exchange already setup!");
+  }
+}// .setupExchange()
 
-  //listen to notifications from the Telephone-Exchange
-  exchangeReference.child('20002').child('from').on('value', function (snapshot) {
-    let ackFrom = snapshot.val();
-    if (ackFrom) {
-      console.log("Setup acknowledgement received from ", ackFrom);
-      console.log("Offer @", new Date());
-      window.$engineers.each(function (i) {
-        let $engineer = $(this);
-        if ($engineer.attr('data-loginId') == 20002) {
-          $engineer.find('.operations').hide();
-          $engineer.attr('data-callTo', ackFrom)
-            .find('.call-to').text(ackFrom).parent().fadeIn();
-        }
-      });
-      exchangeReference.child(ackFrom).child('sdp').set("Dummy SDP of Engineer 20002")
-      .then(function () {
-        console.log('SDP shared from Engineer side');
-      });
-    }
-  });
-  exchangeReference.child('20002').child('icecandidate').on('value', function (snapshot) {
-    let remoteCandidate = snapshot.val();
-    if (remoteCandidate) {
-      console.log('remoteCandidate', remoteCandidate);
-    }
-  });
-  exchangeReference.child('20002').child('sdp').on('value', function (snapshot) {
-    let remoteSDP = snapshot.val();
-    if (remoteSDP) {
-      console.log("INFO: remoteSDP received @", new Date(), remoteSDP);
-    }
-  });
-  exchangeReference.child('20002').child('msg').on('value', function (snapshot) {
-    let remoteMsg = snapshot.val();
-    if (remoteMsg) {
-      console.log("INFO: remoteMsg:" + remoteMsg + " received @", new Date());
-      if (remoteMsg == 'endcall') {
-        window.$engineers.each(function (i) {
-          let $engineer = $(this);
-          if ($engineer.attr('data-loginId') == 20002) {
-            exchangeReference.child(20002).remove().then(function () {
-              engineersReference.child(20002)
-              .child("status").set("online")
-              .then(function () {
-                $engineer.attr('data-callTo','')
-                  .find('.call-to').text('NA').parent().hide();
-              });
-            });
-          }
-        });
-      }
-    }
-  });
-}
-
-let addExpertsListeners = function (expertsReference, userId) {
+let addExpertsListeners = function (expertsReference, engineersReference, exchangeReference, userId) {
   expertsReference.child(userId).off('value');
   expertsReference.child(userId).child('status').on('value', function (snapshot) {
     let status = snapshot.val();
@@ -296,6 +233,10 @@ let addExpertsListeners = function (expertsReference, userId) {
           let $expertStats = $expert.find('.stats');
           switch (status) {
             case "online":
+              if (!window.isExchangeSetup) {
+                setupExchange(expertsReference, engineersReference, exchangeReference);
+                console.log("setupExchange in status");
+              }
               $expertStats.find('.status').text("Online");
               $expert.find('.operations').fadeIn();
               $expert.find('.btn-login').hide();
@@ -312,6 +253,10 @@ let addExpertsListeners = function (expertsReference, userId) {
             case "busy":
               $expertStats.find('.status').text("Busy");
               break;
+            case "locked":
+              $expertStats.find('.status').text("Locked");
+              console.log("\nSomeone is trying to call\n");
+              break;
           }
         }
       });
@@ -326,7 +271,7 @@ let setupExperts = function (expertsReference, engineersReference, exchangeRefer
     let $expert = $(this);
     let loginId = $expert.attr('data-loginId');
     if (loginId) {
-      addExpertsListeners(expertsReference, loginId);
+      addExpertsListeners(expertsReference, engineersReference, exchangeReference, loginId);
     } else {
       console.log("ERROR: Experts LoginId not found.");
     }
@@ -340,12 +285,9 @@ let setupExperts = function (expertsReference, engineersReference, exchangeRefer
           expertsReference.child(loginId).transaction(function(currentExpertStats) {
             console.log("Login Transaction stats: ", currentExpertStats);
             if (currentExpertStats) {
-              if (currentExpertStats.status == 'offline') {
-                currentExpertStats.status = "online";
-                return currentExpertStats;
-              }
+              currentExpertStats.status = "online";
               console.log("Login INFO: Expert " + loginId + " is " + currentExpertStats.status + ".");
-              return;
+              return currentExpertStats;
             }
             return currentExpertStats;
           }, function (err, committed, snapshot) {
@@ -357,6 +299,7 @@ let setupExperts = function (expertsReference, engineersReference, exchangeRefer
               if (updatedExpertsStats) {
                 if (committed == true ) {
                   console.log("Login successfully");
+                  setupExchange(expertsReference, engineersReference, exchangeReference);
                 } else if (committed == false) {
                   console.log("WARN: Login failed.");
                 }
@@ -366,6 +309,8 @@ let setupExperts = function (expertsReference, engineersReference, exchangeRefer
                       "name": "New user",
                       "loginId": loginId,
                       "status": "online"
+                    }).then(function () {
+                      setupExchange(expertsReference, engineersReference, exchangeReference);
                     });
               }
             }
@@ -476,38 +421,58 @@ let setupExperts = function (expertsReference, engineersReference, exchangeRefer
     let $expert = $(evt.target).parents('.expert');
     let loginId = $expert.attr('data-loginId');
     let callFrom = $expert.attr('data-callFrom');
-    exchangeReference.child(loginId).remove().then(function () {
-      exchangeReference.child(callFrom).child('msg').set("endcall");
-      expertsReference.child(loginId).transaction(function(currentExpertStats) {
-        console.log("INFO: Transaction End Call stats: ", currentExpertStats);
-        if (currentExpertStats) {
-          if (currentExpertStats.status == 'busy') {
-            currentExpertStats.status = "online";
-            return currentExpertStats;
-          }
-          console.log("WARN: Transaction End Call Expert " + loginId + " is " + currentExpertStats.status + ".");
-          return;
-        }
-        return currentExpertStats;
-      }, function (err, committed, snapshot) {
-        if (err) {
-          console.error(err);
-        } else {
-          let updatedExpertsStats = snapshot ? snapshot.val() : null;
-          console.log("INFO: Transaction End Call complete : " , err, committed, updatedExpertsStats);
-          if (updatedExpertsStats) {
-            if (committed == true ) {
-              console.log("SUCCESS: Transaction End Call successful.");
-                $expert.attr('data-callFrom','')
-                  .find('.call-from').text('NA').parent().hide();
-            } else if (committed == false) {
-              console.log("WARN: Transaction End Call failed.");
-            }
-          } else {
-            console.log("ERROR: Transaction End Call Expert " + loginId + " does not exist.");
-          }
-        }
-      });//expertsReference.child(expertId).transaction
+    exchangeReference.child(callFrom).child('msg').set("endcall").then(function () {
+      removeCallFromEcxhange(callFrom);
     });
+    removeCallFromEcxhange(loginId);
+    expertsReference.child(loginId).transaction(function(currentExpertStats) {
+      if (currentExpertStats) {
+        if (currentExpertStats.status == 'busy') {
+          currentExpertStats.status = "online";
+          return currentExpertStats;
+        }
+        return;
+      }
+      return currentExpertStats;
+    }, function (err, committed, snapshot) {
+      if (err) {
+        console.error(err);
+      } else {
+        let updatedExpertsStats = snapshot ? snapshot.val() : null;
+        if (updatedExpertsStats) {
+          if (committed == true ) {
+              $expert.attr('data-callFrom','')
+                .find('.call-from').text('NA').parent().hide();
+          } else if (committed == false) {
+          }
+        } else {
+          console.log("ERROR: Transaction End Call Expert " + loginId + " does not exist.");
+        }
+      }
+    });//expertsReference.child(expertId).transaction
   });
 }// end setupExperts()
+
+let removeCallFromEcxhange = function (callerId) {
+  if (callerId) {
+    window.exchangeReference.child(callerId).transaction(function(currentExchangeStats) {
+      console.log("INFO: currentExchangeStats: ", currentExchangeStats);
+      if (currentExchangeStats) {
+        currentExchangeStats.isRemoving = true;
+        return currentExchangeStats;
+      }
+      return currentExchangeStats;
+    }, function (err, committed, snapshot) {
+      if (err) {
+        console.log("Removing call failed. Try later.");
+      } else {
+        if (committed == true ) {
+          console.log("Removing call");
+          exchangeReference.child(callerId).remove();
+        } else if (committed == false) {
+          console.log('Call can be established');
+        }
+      }
+    });
+  }
+}

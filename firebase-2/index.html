@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Signalling Simulator | Firebase</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title">
+    <link rel="stylesheet" href="css/md.css" media="screen" title="no title">
+    <link rel="stylesheet" href="css/msg-banners.css" media="screen" title="no title">
+    <link rel="stylesheet" href="css/status-manager.css" media="screen" title="no title">
+    <script src="js/firebase/firebase-app.js" charset="utf-8"></script>
+    <script src="js/firebase/firebase-database.js" charset="utf-8"></script>
+    <script src="js/jquery.min.js" charset="utf-8"></script>
+    <script src="js/msg-banners.js" charset="utf-8"></script>
+    <script src="js/experts.js" charset="utf-8"></script>
+    <script src="js/engineers.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="container text-center">
+      <div class="row" style="border-bottom:1px solid #ddd;">
+        <h2>Firebase Signalling Simulator</h2>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 experts-container">
+          <h4>Experts</h4>
+          <div class="row">
+            <div class="col-xs-6 user expert" data-loginId="10001" data-callFrom="">
+              <div class="device md-card">
+                <div class="stats">
+                  <div class="stat">
+                    Login Id: <span class="login-id">10001</span>
+                  </div>
+                  <div class="stat">
+                    Status: <span class="status">NA</span>
+                  </div>
+                  <div class="stat text-center" style="display:none;">
+                    Call From: <span class="call-from">NA</span><br>
+                    <button type="button" class="btn btn-info btn-sm btn-end-call">End Call</button>
+                  </div>
+                </div>
+                <div class="operations">
+                  <button type="button" class="btn btn-success btn-block btn-sm btn-login" style="display:none;">Login</button>
+                  <button type="button" class="btn btn-warning btn-sm btn-block btn-take-break" style="display:none;">Take Break</button>
+                  <button type="button" class="btn btn-danger btn-sm btn-block btn-logout" style="display:none;">Logout</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6 user expert" data-loginId="10002" data-callFrom="">
+              <div class="device md-card">
+                <div class="stats">
+                  <div class="stat">
+                    Login Id: <span class="login-id">10002</span>
+                  </div>
+                  <div class="stat">
+                    Status: <span class="status">NA</span>
+                  </div>
+                  <div class="stat text-center" style="display:none;">
+                    Call From: <span class="call-from">NA</span><br>
+                    <button type="button" class="btn btn-info btn-sm btn-end-call">End Call</button>
+                  </div>
+                </div>
+                <div class="operations">
+                  <button type="button" class="btn btn-success btn-block btn-sm btn-login" style="display:none;">Login</button>
+                  <button type="button" class="btn btn-warning btn-sm btn-block btn-take-break" style="display:none;">Take Break</button>
+                  <button type="button" class="btn btn-danger btn-sm btn-block btn-logout" style="display:none;">Logout</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.experts-container -->
+        <div class="col-xs-6 engineers-container">
+          <h4>Engineers</h4>
+          <div class="row">
+            <div class="col-xs-6 user engineer" data-loginId="20001" data-callTo="">
+              <div class="device md-card">
+                <div class="stats">
+                  <div class="stat">
+                    Login Id: <span class="login-id">20001</span>
+                  </div>
+                  <div class="stat">
+                    Status: <span class="status">NA</span>
+                  </div>
+                  <div class="stat text-center" style="display:none;">
+                    Call To: <span class="call-to">NA</span><br>
+                    <button type="button" class="btn btn-info btn-sm btn-end-call">End Call</button>
+                  </div>
+                </div>
+                <div class="operations">
+                  <button type="button" class="btn btn-success btn-block btn-sm btn-login" style="display:none;">Login</button>
+                  <input type="text" class="form-control txt-expert-id" placeholder="Enter Expert ID" style="display:none;">
+                  <button type="button" class="btn btn-info btn-sm btn-block btn-make-call" style="display:none;">Make Call</button>
+                  <button type="button" class="btn btn-danger btn-sm btn-block btn-logout" style="display:none;">Logout</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6 user engineer" data-loginId="20002" data-callTo="">
+              <div class="device md-card">
+                <div class="stats">
+                  <div class="stat">
+                    Login Id: <span class="login-id">20002</span>
+                  </div>
+                  <div class="stat">
+                    Status: <span class="status">NA</span>
+                  </div>
+                  <div class="stat text-center" style="display:none;">
+                    Call To: <span class="call-to">NA</span><br>
+                    <button type="button" class="btn btn-info btn-sm btn-end-call">End Call</button>
+                  </div>
+                </div>
+                <div class="operations">
+                  <button type="button" class="btn btn-success btn-block btn-sm btn-login" style="display:none;">Login</button>
+                  <input type="text" class="form-control txt-expert-id" placeholder="Enter Expert ID" style="display:none;">
+                  <button type="button" class="btn btn-info btn-sm btn-block btn-make-call" style="display:none;">Make Call</button>
+                  <button type="button" class="btn btn-danger btn-sm btn-block btn-logout" style="display:none;">Logout</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.engineers-container -->
+      </div>
+    </div>
+  </body>
+</html>
