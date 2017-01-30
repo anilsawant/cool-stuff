@@ -1,5 +1,5 @@
 window.navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-let engineerId = 20001;
+let initiatorId = 20001;
 
 window.onload = function () {
   // Initialize Firebase
@@ -12,9 +12,9 @@ window.onload = function () {
   };
   let app = firebase.initializeApp(config);
   let fdb = window.fdb = firebase.database();
-  let expertsReference = window.expertsReference = fdb.ref("experts");
-  let engineersReference = window.engineersReference = fdb.ref("engineers");
-  let exchangeReference = window.exchangeReference = fdb.ref("exchange");
+  let receiversReference = window.receiversReference = fdb.ref("webrtc/receivers");
+  let initiatorsReference = window.initiatorsReference = fdb.ref("webrtc/initiators");
+  let exchangeReference = window.exchangeReference = fdb.ref("webrtc/exchange");
 
   const localVideo = document.getElementById('localVideo');
   const remoteVideo = document.getElementById('remoteVideo');
@@ -24,7 +24,7 @@ window.onload = function () {
   const btnEndCall = document.getElementById('btnEndCall');
 
   //listen to notifications from the Telephone-Exchange
-  exchangeReference.child(engineerId).child('from').on('value', function (snapshot) {
+  exchangeReference.child(initiatorId).child('from').on('value', function (snapshot) {
     let ackFrom = snapshot.val();
     if (ackFrom) {
       console.log("Setup acknowledgement received from ", ackFrom);
@@ -39,14 +39,14 @@ window.onload = function () {
       });
     }
   });
-  exchangeReference.child(engineerId).child('icecandidate').on('value', function (snapshot) {
+  exchangeReference.child(initiatorId).child('icecandidate').on('value', function (snapshot) {
     let remoteCandidate = snapshot.val();
     if (remoteCandidate) {
       console.log('remoteCandidate', remoteCandidate);
       window.initiatorPeer.addIceCandidate(new RTCIceCandidate(JSON.parse(remoteCandidate)));
     }
   });
-  exchangeReference.child(engineerId).child('sdp').on('value', function (snapshot) {
+  exchangeReference.child(initiatorId).child('sdp').on('value', function (snapshot) {
     let remoteSDP = snapshot.val();
     if (remoteSDP) {
       console.log("INFO: remoteSDP received @", new Date());
@@ -55,10 +55,10 @@ window.onload = function () {
   });
 
   btnMakeCall.addEventListener('click', function () {
-    let expertId = 10001;//let's call Expert:10001
-    engineersReference.child(engineerId).child('status').set('busy').then(function () {
-      exchangeReference.child(expertId).child('from').set(engineerId);//Call setup request sent to expert:10001
-      console.log("INFO: Call setup request sent to ", expertId, " @", new Date());
+    let receiverId = 10001;//let's call 10001
+    initiatorsReference.child(initiatorId).child('status').set('busy').then(function () {
+      exchangeReference.child(receiverId).child('from').set(initiatorId);//Call setup request sent to receiver:10001
+      console.log("INFO: Call setup request sent to ", receiverId, " @", new Date());
     });
   });
 
@@ -71,11 +71,11 @@ window.onload = function () {
   });
 };
 
-let createRTCPeerConnectionAndCreateOffer = function (expertId) {
+let createRTCPeerConnectionAndCreateOffer = function (receiverId) {
   let initiatorPeer = new RTCPeerConnection(null);
   window.initiatorPeer = initiatorPeer;
   initiatorPeer.onaddstream = function (evt) {
-    console.log("\nReceived remote stream from Expert.\n");
+    console.log("\nReceived remote stream.\n");
     window.remoteStream = remoteVideo.srcObject = evt.stream;
   }
   initiatorPeer.addEventListener('iceconnectionstatechange', function (evt) {
@@ -88,11 +88,11 @@ let createRTCPeerConnectionAndCreateOffer = function (expertId) {
   initiatorPeer.addStream(window.localStream);//imp to add stream b4 offering
   initiatorPeer.createOffer().then(function (rtcSDPOffer) {
     initiatorPeer.setLocalDescription(rtcSDPOffer);
-    expertsReference.child(expertId).child('status').set('busy').then(function () {//Optional: investigate
+    receiversReference.child(receiverId).child('status').set('busy').then(function () {//Optional: investigate
       console.log("Offer @", new Date());
-      exchangeReference.child(expertId).child('sdp').set(JSON.stringify(rtcSDPOffer))
+      exchangeReference.child(receiverId).child('sdp').set(JSON.stringify(rtcSDPOffer))
       .then(function () {
-        console.log('SDP shared from Engineer side');
+        console.log('SDP shared from Initiator side');
       });
     });
   }).catch(function (err) {
@@ -103,9 +103,9 @@ let createRTCPeerConnectionAndCreateOffer = function (expertId) {
   initiatorPeer.onicecandidate = function (evt) {
     if(evt.candidate){
       console.log('INFO: Local onicecandidate @ ',new Date(), evt.candidate);
-      exchangeReference.child(expertId).child('icecandidate').set(JSON.stringify(evt.candidate))
+      exchangeReference.child(receiverId).child('icecandidate').set(JSON.stringify(evt.candidate))
       .then(function () {
-        console.log('Added icecandidate from Engineer side');
+        console.log('Added icecandidate from Initiator side');
       });
     }
   };

@@ -1,17 +1,6 @@
 window.onload = function () {
   // Initialize Firebase
   initializeFirebase();
-  let expertsReference = window.expertsReference = window.fdb.ref("experts");
-  let engineersReference = window.engineersReference = window.fdb.ref("engineers");
-  let exchangeReference = window.exchangeReference = window.fdb.ref("exchange");
-
-  setupEngineers(expertsReference, engineersReference, exchangeReference);
-  window.currentCall = {
-    "callTo": '',
-    "callFrom": '',
-    "timeout": '',
-    "initiator": false
-  }
 }
 
 let initializeFirebase = function (reinitialize) {
@@ -22,86 +11,100 @@ let initializeFirebase = function (reinitialize) {
     storageBucket: "myfirebaseproject-c1059.appspot.com",
     messagingSenderId: "367980625448"
   };
-  if (reinitialize) {
-    console.log("reinitializing app");
-    firebase.app().delete().then(function() {
-      window.app = firebase.initializeApp(config);
-      window.fdb = null;
-      window.fdb = firebase.database();
-  });
-  } else {
-    let app = window.app = firebase.initializeApp(config);
-    let fdb = window.fdb = firebase.database();
+  let app = window.app = firebase.initializeApp(config);
+  let fdb = window.fdb = firebase.database();
+  let receiversReference = window.receiversReference = window.fdb.ref("receivers");
+  let initiatorsReference = window.initiatorsReference = window.fdb.ref("initiators");
+  let exchangeReference = window.exchangeReference = window.fdb.ref("exchange");
+
+  setupInitiators(receiversReference, initiatorsReference, exchangeReference);
+  window.currentCall = {
+    "callTo": '',
+    "callFrom": '',
+    "timeout": '',
+    "initiator": false
   }
 };
 
-let setupEngineers = function (expertsReference, engineersReference, exchangeReference) {
-  let engineersContainer = document.querySelector('.engineers-container');
-  let $engineers = window.$engineers = $('.engineer');//used later
-  $engineers.each(function (i) {
-    let $engineer = $(this);
-    let loginId = $engineer.attr('data-loginid');
-    if (loginId) {
-      addEngineersListeners(engineersReference, loginId);
-    } else {
-      console.log("ERROR: Engineer's LoginId not found.");
-    }
-  });
-  engineersContainer.addEventListener('click', function (evt) {
-    if (evt.target.tagName.toUpperCase() == 'BUTTON') {
-      let $engineer = $(evt.target).parents('.engineer');
-      let userId = $engineer.attr('data-loginid');
-      if (evt.target.className.includes('btn-login')) {
-        if (userId) {
-          engineersReference.child(userId).once('value', function (snapshot) {
+let setupInitiators = function (receiversReference, initiatorsReference, exchangeReference) {
+  let initiatorContainer = document.querySelector('.initiator-container'),
+      $initiatorContainer = $(initiatorContainer),
+      $user = window.$user = $initiatorContainer.find('.user'),
+      userOperations = initiatorContainer.querySelector('.operations'),
+      btnEndCall = initiatorContainer.querySelector('.btn-end-call');
+
+  userOperations.addEventListener('click', function (evt) {
+    if (evt.target.className.includes('btn-login')) {
+      let userId = userOperations.querySelector('.txt-login-id').value;
+      if (userId) {
+        let initiatorsRegEx = /^2\d{4}$/;
+        if (initiatorsRegEx.test(userId)) {
+          initiatorsReference.child(userId).once('value', function (snapshot) {
             let user = snapshot.val();
             if (user) {
-              engineersReference.child(userId).child("status").set("online");
+              initiatorsReference.child(userId).child("status").set("online").then(function () {
+                window.$user.attr('data-loginid', userId);
+                window.$user.find('.login-id').text(userId);
+                addInitiatorsListeners(receiversReference, initiatorsReference, exchangeReference, userId);
+              });
             } else {
-              engineersReference.child(userId).set({
+              let user = {
                 "name": "New User",
                 "userId": userId,
                 "status": "online"
+              };
+              initiatorsReference.child(userId).set(user).then(function () {
+                window.$user.attr('data-loginid', userId);
+                window.$user.find('.login-id').text(userId);
+                addInitiatorsListeners(receiversReference, initiatorsReference, exchangeReference, userId);
               });
             }
           });
         } else {
-          alert("login ID missing");
+          alert("Initiator's id should start with 2 and contain 5 digits.")
         }
-      } else if (evt.target.className.includes('btn-logout')) {
-        engineersReference.child(userId).child("status").set("offline");
-      } else if (evt.target.className.includes('btn-make-call')) {
-        let expertId = $engineer.find('.txt-expert-id').val();
-        if (expertId) {
+      } else {
+        alert("login ID missing");
+      }
+    } else if (evt.target.className.includes('btn-logout')) {
+      let userId = window.$user.attr('data-loginid');
+      initiatorsReference.child(userId).child("status").set("offline");
+    } else if (evt.target.className.includes('btn-make-call')) {
+      let receiverId = window.$user.find('.txt-receiver-id').val();
+      if (receiverId) {
+        let userId = window.$user.attr('data-loginid');
+        if (userId == receiverId) {
+          alert('Cannot call yourself.');
+        } else {
           let newCallRef = exchangeReference.push({
             "from": userId,
             "timeStamp": Date.now(),
-            "turn": expertId
+            "turn": receiverId
           });
           let callKey = newCallRef.key;
           console.log('callKey', callKey);
-          window.currentCall.callTo = expertId;
+          window.currentCall.callTo = receiverId;
           window.currentCall.callKey = callKey;
           window.currentCall.initiator = true;
-          expertsReference.child(expertId).transaction(function(currentExpertStats) {
-            if (currentExpertStats) {
-              if (currentExpertStats.status == 'online' && !currentExpertStats.call) {
-                currentExpertStats.call = callKey;
-                return currentExpertStats;
+          receiversReference.child(receiverId).transaction(function(currentReceiversStats) {
+            if (currentReceiversStats) {
+              if (currentReceiversStats.status == 'online' && !currentReceiversStats.call) {
+                currentReceiversStats.call = callKey;
+                return currentReceiversStats;
               }
               return;
             }
-            return currentExpertStats;
+            return currentReceiversStats;
           }, function (err, committed, snapshot) {
             if (err) {
-              console.error(err);
+              console.log("ERROR: Transaction aborted.");
               //cleanup the timed-out call
               window.currentCall = {};
               exchangeReference.child(callKey).remove();
-              expertsReference.child(expertId).child('call').remove();
+              receiversReference.child(receiverId).child('call').remove();
             } else {
-              let updatedExpertsStats = snapshot ? snapshot.val() : null;
-              if (updatedExpertsStats) {
+              let updatedReceiversStats = snapshot ? snapshot.val() : null;
+              if (updatedReceiversStats) {
                 if (committed == true ) {
                   console.log("SUCCESS: " + userId + "'s call registered @exchange.");
 
@@ -111,7 +114,7 @@ let setupEngineers = function (expertsReference, engineersReference, exchangeRef
                     console.log('Ack wait timeout called:');
                     exchangeReference.child(callKey).transaction(function(currentCallProps) {
                       if (currentCallProps) {
-                        if (currentCallProps.turn == expertId) {//since ack was not received, turn will be of 'to'
+                        if (currentCallProps.turn == receiverId) {//since ack was not received, turn will be of 'to'
                           currentCallProps.turn = currentCallProps.from;
                           return currentCallProps;
                         }
@@ -120,11 +123,11 @@ let setupEngineers = function (expertsReference, engineersReference, exchangeRef
                       return currentCallProps;
                     }, function (err, committed, snapshot) {
                       if (err) {
-                        console.error(err);
+                        console.log("ERROR: Transaction aborted.");
                         //cleanup the timed-out call
                         window.currentCall = {};
                         exchangeReference.child(callKey).remove();
-                        expertsReference.child(expertId).child('call').remove();
+                        receiversReference.child(receiverId).child('call').remove();
                       } else {
                         let updatedCallProps = snapshot ? snapshot.val() : null;
                         if (updatedCallProps) {
@@ -133,21 +136,19 @@ let setupEngineers = function (expertsReference, engineersReference, exchangeRef
                             //cleanup the timed-out call
                             window.currentCall = {};
                             exchangeReference.child(callKey).remove();
-                            expertsReference.child(expertId).child('call').remove();
+                            receiversReference.child(receiverId).child('call').remove();
                           } else if (committed == false) {
                             //Extreme case: received acknowledgement exactly @timeout
                             console.log("ERROR: Ack timeout failed. Not my turn.");
                             if (window.currentCall.ackFrom) {
                               let fromSDP = "This is a FromSDP of " + userId;
                               exchangeReference.child(callKey).child("fromSDP").set(fromSDP);
-
-
                             } else {
                               console.log("FATAL: Transaction failed.", window.currentCall);
                             }
                           }
                         } else {
-                          console.log("ERROR in Call Transaction. Call " + newCallKey + " does not exist.");
+                          console.log("ERROR in Call Transaction. Call " + callKey + " does not exist.");
                         }
                       }
                     });;
@@ -156,7 +157,7 @@ let setupEngineers = function (expertsReference, engineersReference, exchangeRef
                   //on success start listening for the acknowledgement from 'to'
                   newCallRef.child('to').on('value', function (snap) {
                     let ackFrom = snap.val();
-                    if (ackFrom && ackFrom == expertId) {
+                    if (ackFrom && ackFrom == receiverId) {
                       console.log("Acknowledgement received from ", ackFrom);
                       window.currentCall.ackFrom = ackFrom;
                       if (!window.currentCall.isTimedOut) {
@@ -171,14 +172,8 @@ let setupEngineers = function (expertsReference, engineersReference, exchangeRef
                     let toSDP = snap.val();
                     if (toSDP) {
                       console.log("Received:toSDP=", toSDP);
-                      window.$engineers.each(function (i) {
-                        let $engineer = $(this);
-                        if ($engineer.attr('data-loginid') == userId) {
-                          $engineer.find('.operations').hide();
-                          $engineer.attr('data-callTo', window.currentCall.ackFrom)
-                            .find('.call-to').text(window.currentCall.ackFrom).parent().fadeIn();
-                        }
-                      });
+                      window.$user.find('.operations').hide();
+                      window.$user.find('.call-to').text(window.currentCall.ackFrom).parent().fadeIn();
                     }
                   });
                   //on success start listening for toSDP
@@ -190,24 +185,10 @@ let setupEngineers = function (expertsReference, engineersReference, exchangeRef
                   });
                   //on success start listening for toSDP
                   exchangeReference.child(callKey).child('toEndCall').on('value', function (snap) {
-                    let endCall = snap.val();
-                    if (endCall == true) {
-                      console.log("Received:toEndCall=", endCall);
-                      window.$engineers.each(function (i) {
-                        let $engineer = $(this),
-                            loginId = $engineer.attr('data-loginid');
-                        if (loginId == userId) {
-                          $engineer.attr('data-callTo','')
-                              .find('.call-to').text('NA').parent().hide();
-                          $engineer.find('.operations').show();
-                          if (window.currentCall.initiator) {
-                            window.exchangeReference.child(callKey).remove();
-                          } else {
-                            window.expertsReference.child(loginId).child('call').remove();
-                          }
-                          window.currentCall = {};
-                        }
-                      });
+                    let endCallMsg = snap.val();
+                    if (endCallMsg == true) {
+                      console.log("Received:toEndCall=", endCallMsg);
+                      endCall(false);
                     }
                   });
                 } else if (committed == false) {
@@ -216,7 +197,7 @@ let setupEngineers = function (expertsReference, engineersReference, exchangeRef
                   newCallRef.remove();
                 }
               } else {
-                console.log("ERROR in Call Transaction. Expert " + expertId + " does not exist.");
+                console.log("ERROR in Call Transaction. Expert " + receiverId + " does not exist.");
                 newCallRef.remove();
               }
             }
@@ -225,59 +206,55 @@ let setupEngineers = function (expertsReference, engineersReference, exchangeRef
       }
     }
   });
-}// end setupEngineers()
+  btnEndCall.addEventListener('click', function (evt) {
+    evt.stopPropagation();
+    endCall(true);
+  });
+}// end setupInitiators()
 
-let addEngineersListeners = function (engineersReference, userId) {
-  engineersReference.child(userId).off('value');
-  engineersReference.child(userId).child('status').on('value', function (snapshot) {
+let addInitiatorsListeners = function (receiversReference, initiatorsReference, exchangeReference, userId) {
+  initiatorsReference.child(userId).off('value');
+  initiatorsReference.child(userId).child('status').on('value', function (snapshot) {
     let status = snapshot.val();
     if (status) {
-      $engineers.each(function (i) {
-        let $engineer = $(this);
-        if ($engineer.attr('data-loginid') == userId) {
-          let $engineerStats = $engineer.find('.stats');
-          switch (status) {
-            case "online":
-              $engineerStats.find('.status').text("Online");
-              $engineer.find('.operations').fadeIn();
-              $engineer.find('.btn-login').hide();
-              $engineer.find('.txt-expert-id').fadeIn();
-              $engineer.find('.btn-make-call').fadeIn();
-              $engineer.find('.btn-logout').fadeIn();
-              break;
-            case "offline":
-              $engineerStats.find('.status').text("Offline");
-              $engineer.find('.operations').fadeIn();
-              $engineer.find('.txt-expert-id').hide();
-              $engineer.find('.btn-make-call').hide();
-              $engineer.find('.btn-logout').hide();
-              $engineer.find('.btn-login').fadeIn();
-              break;
-            case "busy":
-              $engineerStats.find('.status').text("Busy");
-              break;
-          }
-        }
-      });
+      let $userStats = window.$user.find('.stats');
+      switch (status) {
+        case "online":
+          $userStats.find('.status').text("Online");
+          window.$user.find('.operations').fadeIn();
+          window.$user.find('.txt-receiver-id').fadeIn();
+          window.$user.find('.btn-make-call').fadeIn();
+          window.$user.find('.btn-logout').fadeIn();
+          window.$user.find('.btn-login').hide();
+          window.$user.find('.txt-login-id').hide();
+          break;
+        case "offline":
+          $userStats.find('.status').text("Offline");
+          window.$user.find('.operations').fadeIn();
+          window.$user.find('.txt-login-id').fadeIn();
+          window.$user.find('.btn-login').fadeIn();
+          window.$user.find('.txt-receiver-id').hide();
+          window.$user.find('.btn-make-call').hide();
+          window.$user.find('.btn-logout').hide();
+          break;
+        case "busy":
+          $userStats.find('.status').text("Busy");
+          break;
+      }
     }
   });
+};// end addInitiatorsListeners()
 
-  $engineers.on('click', '.btn-end-call', function (evt) {
-    evt.stopPropagation();
-    let $engineer = $(evt.target).parents('.engineer');
-    let loginId = $engineer.attr('data-loginid');
-    let callTo = $engineer.attr('data-callTo');
-    $engineer.attr('data-callTo','')
-        .find('.call-to').text('NA').parent().hide();
-    $engineer.find('.operations').show();
-    window.exchangeReference.child(window.currentCall.callKey).child('fromEndCall').set(true).then(function () {
-      let callKey = window.currentCall.callKey;
-      if (callKey)
-        window.exchangeReference.child(callKey).remove();
-
-      if (!window.currentCall.initiator)
-        window.expertsReference.child(loginId).child('call').remove();
-      window.currentCall = {};
+let endCall = function (sendEndCallMsg) {
+  let loginId = window.$user.attr('data-loginid');
+  window.$user.find('.call-to').text('NA').parent().hide();
+  window.$user.find('.operations').show();
+  if (sendEndCallMsg == true) {
+    let callKey = window.currentCall.callKey;
+    window.exchangeReference.child(callKey).child('fromEndCall').set(true).then(function () {
+      window.exchangeReference.child(callKey).remove();
+      window.receiversReference.child(loginId).child('call').remove();
     });
-  });
-};// end addEngineersListeners()
+  }
+  window.currentCall = {};
+}

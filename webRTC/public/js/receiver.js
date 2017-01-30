@@ -1,5 +1,5 @@
 window.navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-let expertId = 10001;
+let receiverId = 10001;
 
 window.onload = function () {
   // Initialize Firebase
@@ -12,18 +12,18 @@ window.onload = function () {
   };
   let app = firebase.initializeApp(config);
   let fdb = window.fdb = firebase.database();
-  let expertsReference = window.expertsReference = fdb.ref("experts");
-  let engineersReference = window.engineersReference = fdb.ref("engineers");
-  let exchangeReference = window.exchangeReference = fdb.ref("exchange");
+  let receiversReference = window.receiversReference = fdb.ref("webrtc/receivers");
+  let initiatorsReference = window.initiatorsReference = fdb.ref("webrtc/initiators");
+  let exchangeReference = window.exchangeReference = fdb.ref("webrtc/exchange");
 
   //listen to notifications from the Telephone-Exchange
-  exchangeReference.child(expertId).child('from').on('value', function (snapshot) {
+  exchangeReference.child(receiverId).child('from').on('value', function (snapshot) {
     let callFrom = window.callFrom = snapshot.val();
     if (callFrom) {
       console.log("INFO: Call setup request from ", callFrom , '@', new Date());
-      expertsReference.child(expertId).child('status').set('busy').then(function () {
+      receiversReference.child(receiverId).child('status').set('busy').then(function () {
         //Call setup acknowledgement sent back to callFrom
-        exchangeReference.child(callFrom).child('from').set(expertId).then(function () {
+        exchangeReference.child(callFrom).child('from').set(receiverId).then(function () {
           window.navigator.mediaDevices.getUserMedia({
             video: true,
             audio: false
@@ -32,22 +32,26 @@ window.onload = function () {
             createRTCPeerConnection(callFrom);
           }).catch(function (err) {
             console.error(err);
-            expertsReference.child(expertId).child('status').set('online');//if the call fails
+            receiversReference.child(receiverId).child('status').set('online');//if the call fails
           });
         });
       });
     }
   });
-  exchangeReference.child(expertId).child('sdp').on('value', function (snapshot) {
+  exchangeReference.child(receiverId).child('sdp').on('value', function (snapshot) {
     let remoteSDP = snapshot.val();
     if (remoteSDP) {
       console.log("INFO: remoteSDP received @", new Date());
-      window.receiverPeer.setRemoteDescription(JSON.parse(remoteSDP));
+      if (window.receiverPeer) {
+        window.receiverPeer.setRemoteDescription(JSON.parse(remoteSDP));
+      } else {
+        console.log("Receiver peer not yet setup.");
+      }
     }
   });
 
   /*NOTE: The following should not be done on the receiver side
-  exchangeReference.child(expertId).child('icecandidate').on('value', function (snapshot) {
+  exchangeReference.child(receiverId).child('icecandidate').on('value', function (snapshot) {
     let remoteICECandidate = snapshot.val();
     if (remoteICECandidate) {
       console.log('remoteICECandidate', remoteICECandidate);
@@ -73,7 +77,7 @@ window.onload = function () {
       console.log("Answer @", new Date());
       exchangeReference.child(window.callFrom).child("sdp").set(JSON.stringify(rtcSDPAnswer))
       .then(function () {
-        console.log('SDP shared from Expert side');
+        console.log('SDP shared from Receiver side');
       });
     }).catch(function (err) {
       console.error(err);
@@ -93,7 +97,7 @@ let createRTCPeerConnection = function (callFrom) {
   let receiverPeer = window.receiverPeer = new RTCPeerConnection(null);
   receiverPeer.addStream(window.localStream);//imp to add stream b4 answering
   receiverPeer.onaddstream = function (evt) {
-    console.log("\nReceived remote stream from Engineer.\n");
+    console.log("\nReceived remote stream.\n");
     window.remoteStream = remoteVideo.srcObject = evt.stream;
   }
   receiverPeer.onicecandidate =  function (evt) {

@@ -19,14 +19,14 @@
         <h3>Firebase Signalling Simulator</h3>
       </div>
       <div class="row">
-        <div class="col-xs-12 experts-container">
+        <div class="col-xs-12 receiver-container">
           <h4>Receiver</h4>
           <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 user expert" data-loginid="10001" data-callFrom="">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 user receiver" data-loginid="">
               <div class="device md-card">
                 <div class="stats">
                   <div class="stat">
-                    Login Id: <span class="login-id">10001</span>
+                    Login Id: <span class="login-id">NA</span>
                   </div>
                   <div class="stat">
                     Status: <span class="status">NA</span>
@@ -37,14 +37,15 @@
                   </div>
                 </div>
                 <div class="operations">
-                  <button type="button" class="btn btn-success btn-block btn-sm btn-login" style="display:none;">Login</button>
+                  <input type="text" class="form-control txt-login-id" placeholder="Enter login id">
+                  <button type="button" class="btn btn-success btn-block btn-sm btn-login">Login</button>
                   <button type="button" class="btn btn-warning btn-sm btn-block btn-take-break" style="display:none;">Take Break</button>
                   <button type="button" class="btn btn-danger btn-sm btn-block btn-logout" style="display:none;">Logout</button>
                 </div>
               </div>
             </div>
           </div>
-        </div><!-- /.experts-container -->
+        </div><!-- /.receiver-container -->
       </div>
     </div>
   </body>
