@@ -1,3 +1,6 @@
+/**
+@author Anil Sawant <anilsawant241191@gmail.com>
+*/
 let popupAlert = function(msg, about, done) {
   let popupOverlay = document.createElement('div');
   popupOverlay.className = 'popupOverlay';

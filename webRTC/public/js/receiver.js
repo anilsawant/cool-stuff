@@ -1,4 +1,5 @@
 window.navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+let initiatorId = 20001;
 let receiverId = 10001;
 
 window.onload = function () {
@@ -22,18 +23,16 @@ window.onload = function () {
     if (callFrom) {
       console.log("INFO: Call setup request from ", callFrom , '@', new Date());
       receiversReference.child(receiverId).child('status').set('busy').then(function () {
-        //Call setup acknowledgement sent back to callFrom
-        exchangeReference.child(callFrom).child('from').set(receiverId).then(function () {
-          window.navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: false
-          }).then(function (stream) {
-            window.localStream = localVideo.srcObject = stream;
-            createRTCPeerConnection(callFrom);
-          }).catch(function (err) {
-            console.error(err);
+        getWebcamAccess(localVideo, function (accessReceived) {
+          if (!accessReceived) {
+            console.log("ERROR: Did not get Webcam access.");
             receiversReference.child(receiverId).child('status').set('online');//if the call fails
-          });
+          } else {
+            //Call setup acknowledgement sent back to callFrom
+            exchangeReference.child(callFrom).child('from').set(receiverId).then(function () {
+              createRTCPeerConnection(callFrom);
+            });
+          }
         });
       });
     }
@@ -44,6 +43,16 @@ window.onload = function () {
       console.log("INFO: remoteSDP received @", new Date());
       if (window.receiverPeer) {
         window.receiverPeer.setRemoteDescription(JSON.parse(remoteSDP));
+        window.receiverPeer.createAnswer().then(function (rtcSDPAnswer) {
+          window.receiverPeer.setLocalDescription(rtcSDPAnswer);
+          console.log("Answer @", new Date());
+          exchangeReference.child(window.callFrom).child("sdp").set(JSON.stringify(rtcSDPAnswer))
+          .then(function () {
+            console.log('SDP shared from Receiver side');
+          });
+        }).catch(function (err) {
+          console.error(err);
+        });
       } else {
         console.log("Receiver peer not yet setup.");
       }
@@ -62,32 +71,19 @@ window.onload = function () {
         console.log("WARN: add ice candiate called too early");
       }
     }
-  });
-  */
+  });*/
 
 
   const localVideo = document.getElementById('localVideo');
   const remoteVideo = document.getElementById('remoteVideo');
-  const btnAccept = document.getElementById('btnAccept');
   const btnEndCall = document.getElementById('btnEndCall');
-
-  btnAccept.addEventListener('click', function () {
-    window.receiverPeer.createAnswer().then(function (rtcSDPAnswer) {
-      window.receiverPeer.setLocalDescription(rtcSDPAnswer);
-      console.log("Answer @", new Date());
-      exchangeReference.child(window.callFrom).child("sdp").set(JSON.stringify(rtcSDPAnswer))
-      .then(function () {
-        console.log('SDP shared from Receiver side');
-      });
-    }).catch(function (err) {
-      console.error(err);
-    });
-  });
 
   btnEndCall.addEventListener('click', function () {
     if (window.receiverPeer) {
       window.receiverPeer.close();
       window.receiverPeer = null;
+      exchangeReference.child(initiatorId).remove();
+      exchangeReference.child(receiverId).remove();
       console.log("INFO: End Call Success.");
     }
   });
@@ -102,6 +98,7 @@ let createRTCPeerConnection = function (callFrom) {
   }
   receiverPeer.onicecandidate =  function (evt) {
     if(evt.candidate) {
+      console.log(evt.candidate);
       exchangeReference.child(callFrom).child('icecandidate').set(JSON.stringify(evt.candidate));
     }
   };
@@ -111,5 +108,29 @@ let createRTCPeerConnection = function (callFrom) {
     let newLogItem = document.createElement('li');
     newLogItem.textContent = evt.target.iceConnectionState + " @ " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ":" + d.getMilliseconds();
     log.appendChild(newLogItem);
+    if (evt.target.iceConnectionState == "failed") {
+      btnEndCall.click();
+    }
   });
+}
+let getWebcamAccess = function (localVideoElm, done) {
+  if (localVideoElm) {
+    window.navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: false
+    }).then(function (stream) {
+      window.localStream = localVideoElm.srcObject = stream;
+      if (done && typeof done == "function")
+        done(true);
+      // createRTCPeerConnectionAndCreateOffer(ackFrom);
+    }).catch(function (err) {
+      if (err.name == "PermissionDeniedError") {
+        console.log("ERROR: You cannot make a call without giving permission to access Webcam.");
+      } else {
+        console.error(err);
+      }
+      if (done && typeof done == "function")
+        done(false);
+    });
+  }
 }

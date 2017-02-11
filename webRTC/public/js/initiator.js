@@ -1,5 +1,6 @@
 window.navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 let initiatorId = 20001;
+let receiverId = 10001;//let's call 10001
 
 window.onload = function () {
   // Initialize Firebase
@@ -28,15 +29,7 @@ window.onload = function () {
     let ackFrom = snapshot.val();
     if (ackFrom) {
       console.log("Setup acknowledgement received from ", ackFrom);
-      window.navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: false
-      }).then(function (stream) {
-        window.localStream = localVideo.srcObject = stream;
-        createRTCPeerConnectionAndCreateOffer(ackFrom);
-      }).catch(function (err) {
-        console.error(err);
-      });
+      createRTCPeerConnectionAndCreateOffer(ackFrom);
     }
   });
   exchangeReference.child(initiatorId).child('icecandidate').on('value', function (snapshot) {
@@ -55,10 +48,15 @@ window.onload = function () {
   });
 
   btnMakeCall.addEventListener('click', function () {
-    let receiverId = 10001;//let's call 10001
-    initiatorsReference.child(initiatorId).child('status').set('busy').then(function () {
-      exchangeReference.child(receiverId).child('from').set(initiatorId);//Call setup request sent to receiver:10001
-      console.log("INFO: Call setup request sent to ", receiverId, " @", new Date());
+    getWebcamAccess(localVideo, function (accessReceived) {
+      if (!accessReceived) {
+        console.log("ERROR: Did not get Webcam access.");
+      } else {
+        initiatorsReference.child(initiatorId).child('status').set('busy').then(function () {
+          exchangeReference.child(receiverId).child('from').set(initiatorId);//Call setup request sent to receiver:10001
+          console.log("INFO: Call setup request sent to ", receiverId, " @", new Date());
+        });
+      }
     });
   });
 
@@ -67,6 +65,8 @@ window.onload = function () {
       window.initiatorPeer.close();
       window.initiatorPeer = null;
       console.log("INFO: End Call Success.");
+      exchangeReference.child(initiatorId).remove();
+      exchangeReference.child(receiverId).remove();
     }
   });
 };
@@ -84,6 +84,9 @@ let createRTCPeerConnectionAndCreateOffer = function (receiverId) {
     let newLogItem = document.createElement('li');
     newLogItem.textContent = evt.target.iceConnectionState + " @ " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ":" + d.getMilliseconds();
     log.appendChild(newLogItem);
+    if (evt.target.iceConnectionState == "failed") {
+      btnEndCall.click();
+    }
   });
   initiatorPeer.addStream(window.localStream);//imp to add stream b4 offering
   initiatorPeer.createOffer().then(function (rtcSDPOffer) {
@@ -110,4 +113,24 @@ let createRTCPeerConnectionAndCreateOffer = function (receiverId) {
     }
   };
   */
+}
+let getWebcamAccess = function (localVideoElm, done) {
+  if (localVideoElm) {
+    window.navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: false
+    }).then(function (stream) {
+      window.localStream = localVideoElm.srcObject = stream;
+      if (done && typeof done == "function")
+        done(true);
+    }).catch(function (err) {
+      if (err.name == "PermissionDeniedError") {
+        console.log("ERROR: You cannot make a call without giving permission to access Webcam.");
+      } else {
+        console.error(err);
+      }
+      if (done && typeof done == "function")
+        done(false);
+    });
+  }
 }
