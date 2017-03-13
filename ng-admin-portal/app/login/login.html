@@ -1,0 +1,22 @@
+<div style="position:absolute;height:100%;width:100%;left:0;top:0;display:flex" ng-controller="LoginController">
+  <div class="login-card">
+    <div class="header">
+      <span class="fa-logo"></span>
+      <span class="app-title">Admin Portal</span>
+    </div>
+    <div class="input">
+      <span class="icon fa fa-user"></span>
+      <input type="text" placeholder="Admin ID" ng-model="loginId">
+    </div>
+    <div class="input">
+      <span class="icon fa fa-unlock-alt"></span>
+      <input type="password" placeholder="Password" ng-model="password">
+    </div>
+    <div class="remember">
+      <span class="fa fa-square-o" id="rememberMe" onclick="this.className=this.className.includes('fa-square-o')?this.className='fa fa-check-square-o':this.className='fa fa-square-o';"></span>
+      <span class="cur-pointer" onclick="this.parentNode.querySelector('span.fa').click();">Remember Me</span>
+      <span class="forgot-password">Forgot Password?</span>
+    </div>
+    <button type="button" class="btn-block btn-green" ng-click="login($event);">Login</button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3 loginCard">
+      <div class="header display-flex">
+        <span class="margin-auto display-flex">
+          <span class="fa-logo margin-auto"></span>
+          <span class="margin-auto" style="color:#fff;font-size:22px;font-family:verdana;font-weight:bold;">Admin Portal</span>
+        </span>
+      </div>
+      <form class="body">
+        <input ng-model="loginId" type="text" class="form-control" placeholder="Enter login id">
+        <input ng-model="password" type="password" class="form-control" placeholder="Password">
+      </form>
+      <div class="alert alert-danger" role="alert" style="margin-top:10px;display:none;">
+        <button ng-click="hideMsg();"type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span class="msg">This is an alert!</span>
+      </div>
+      <div class="footer">
+        <button ng-click="login($event);" type="button" class="btn btn-lg btn-block btn-info">Sign In</button>
+      </div>
+      <div class="text-center">
+        <span ng-click="resetPassword();" style="color:#09c;font-size:15px;cursor:pointer;">Reset password</span>
+      </div>
+    </div>
+  </div>
+</div>

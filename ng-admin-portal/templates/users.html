@@ -1,0 +1,195 @@
+<div ng-include="'templates/navbar.html'"></div>
+<div class="container-fluid full-height users-container" style="padding-top:41px;">
+  <div class="full-height">
+    <div class="row full-height">
+      <div class="col-xs-12 full-height">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#expert" aria-controls="expert" role="tab" data-toggle="tab" onclick="event.preventDefault();">Experts</a>
+          </li>
+          <li role="presentation">
+            <a href="#engineer" aria-controls="engineer" role="tab" data-toggle="tab" onclick="event.preventDefault();">Engineers</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active fade in full-height" id="expert" role="tabpanel">
+            <div class="container-fluid full-height">
+              <div class="row input-row">
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                  <input ng-model="searchQuery" type="text" class="form-control" placeholder="Search: Enter comma separated Login Ids">
+                  <span ng-click="searchUsers(searchQuery);" class="search-icon glyphicon glyphicon-search"></span>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-2">
+                  <button ng-click="loadExpertsList();" type="button" title="View All Experts" class="btn btn-success btn-view-all-experts btn-block overflow-ellipsis"><span class="glyphicon glyphicon-eye-open"></span> View All</button>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-2">
+                  <button ng-click="showAddUserCard($event);" type="button" title="Add Expert" class="btn btn-success btn-block overflow-ellipsis"><span class="glyphicon glyphicon-plus-sign"></span> Add Expert</button>
+                </div>
+              </div>
+              <div class="row search-result" style="display:none;">
+                <div class="col-xs-12 full-height">
+                  <div class="card-pane container-fluid full-height">
+                    <div class="row header">
+                      <div class="col-xs-2" style="padding-left:5px;">
+                        <b style="font-family:verdana;font-size:15px;line-height:30px;">Result</b>
+                      </div>
+                      <div class="col-xs-10" style="padding-right:5px;">
+                        <button type="button" ng-click="deleteUsers($event);" class="btn btn-danger btn-sm pull-right" ng-disabled="!isExpertRowSelected"><span class="glyphicon glyphicon-trash"></span> Delete Expert</button>
+                        <button type="button" ng-click="resetUsers($event);" class="btn btn-info btn-sm pull-right" ng-disabled="!isExpertRowSelected"><span class="glyphicon glyphicon-repeat"></span> Reset Password</button>
+                        <button type="button" ng-click="exportUsersList($event);" class="btn btn-warning btn-sm pull-right"><span class="glyphicon glyphicon-export"></span> Export List</button>
+                      </div>
+                    </div>
+                    <div class="row body">
+                      <div class="col-xs-12 full-height" style="padding:0 5px;">
+                        <div class="table-responsive full-height">
+                          <table class="full-height">
+                            <thead>
+                              <tr>
+                                <th><span title="Select All" class="checkbox glyphicon glyphicon-unchecked" ng-click="selectAllRows($event);"></span></th>
+                                <th data-orderby="loginId" ng-click="setExpertsOrderBy($event);" style="cursor:pointer;" title="Order by Login ID">Login ID <span class="caret"></span></th>
+                                <th data-orderby="expertName" ng-click="setExpertsOrderBy($event);" style="cursor:pointer;" title="Order by Expert's Name">Expert Name <span class="caret"></span></th>
+                                <th data-orderby="location" ng-click="setExpertsOrderBy($event);" style="cursor:pointer;" title="Order by Location">Location <span class="caret"></span></th>
+                                <th data-orderby="programName" ng-click="setExpertsOrderBy($event);" style="cursor:pointer;" title="Order by Program">Program <span class="caret"></span></th>
+                                <th data-orderby="teamName" ng-click="setExpertsOrderBy($event);" style="cursor:pointer;" title="Order by Team">Team <span class="caret"></span></th>
+                                <th>Skills</th>
+                              </tr>
+                            </thead>
+                            <tbody ng-click="tableBodyClick($event);">
+                              <tr ng-repeat="expert in experts | orderBy:orderExpertsBy" data-loginid="{{expert.loginId}}">
+                                <td><span class="checkbox glyphicon glyphicon-unchecked" title="Select user"></span></td>
+                                <td ng-bind="expert.loginId"></td>
+                                <td ng-bind="expert.expertName"></td>
+                                <td ng-bind="expert.location"></td>
+                                <td ng-bind="expert.programName"></td>
+                                <td ng-bind="expert.teamName"></td>
+                                <td ng-bind="expert.skillNames.join(',')"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!-- ./card -->
+                </div>
+              </div><!-- ./search-result -->
+              <div class="row alert-msg" style="display:none;">
+                <div class="col-xs-12">
+                  <div class="card-msg text-center">
+                    Experts List will be populated here...
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container-fluid add sub-overlay full-height">
+              <div ng-click="closeAddUserCard($event);" class="row full-height overlay-dismiss">
+                <div class="add resource-card full-height">
+                  <div class="header">
+                    <b style="font-family:verdana;font-size:15px;line-height:30px;">Enter Expert's details</b>
+                    <span ng-click="closeAddUserCard($event);" class="close" style="font-size:26px;">&times;</span>
+                  </div>
+                  <div class="body">
+                    <input type="text" class="form-control" ng-model="expLoginId" placeholder="Login Id">
+                    <input type="text" class="form-control" ng-model="expName" placeholder="Name">
+                    <input type="text" class="form-control" ng-model="expLocation" placeholder="Location">
+                    <select class="form-control" ng-model="selectedExpertProgram" ng-options="p.programName for p in gsmcPrograms" ng-change="getTeamsInProgram(selectedExpertProgram.programId);"></select>
+                    <select class="form-control" ng-model="selectedExpertTeam" ng-options="t.teamName for t in gsmcTeams"></select>
+                    <input type="text" class="form-control" ng-model="expSkills" placeholder="Comma/space separated Skills">
+                    <button type="button" class="btn btn-success" ng-click="createNewExpert($event);">Add Expert</button>
+                  </div>
+                  <div class="footer">
+                    Enter Expert's details, select the Program and Team Name, and click on Add Expert.
+                  </div>
+                </div>
+              </div>
+            </div><!-- ./add-sub-overlay -->
+          </div><!-- ./tab-pane -->
+          <div class="tab-pane fade" id="engineer" role="tabpanel">
+            <div class="container-fluid full-height">
+              <div class="row input-row">
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                  <input ng-model="searchQuery" type="text" class="form-control" placeholder="Search: Enter comma separated Login Ids">
+                  <span ng-click="searchUsers(searchQuery);" class="search-icon glyphicon glyphicon-search"></span>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-2">
+                  <button ng-click="loadEngineersList();" type="button" title="View All Engineers" class="btn btn-success btn-block overflow-ellipsis"><span class="glyphicon glyphicon-eye-open"></span> View All</button>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-2">
+                  <button ng-click="showAddUserCard($event);" type="button" title="Add Engineer" class="btn btn-success btn-block overflow-ellipsis"><span class="glyphicon glyphicon-plus-sign"></span> Add Engineer</button>
+                </div>
+              </div>
+              <div class="row search-result" style="display:none;">
+                <div class="col-xs-12 full-height">
+                  <div class="card-pane container-fluid full-height">
+                    <div class="row header">
+                      <div class="col-xs-2" style="padding-left:5px;">
+                        <b style="font-family:verdana;font-size:15px;line-height:30px;">Result</b>
+                      </div>
+                      <div class="col-xs-10" style="padding-right:5px;">
+                        <button type="button" ng-click="deleteUsers($event);" class="btn btn-danger btn-sm pull-right" ng-disabled="!isEngineerRowSelected"><span class="glyphicon glyphicon-trash"></span> Delete Engineer</button>
+                        <button type="button" ng-click="resetUsers($event);" class="btn btn-info btn-sm pull-right" ng-disabled="!isEngineerRowSelected"><span class="glyphicon glyphicon-repeat"></span> Reset Password</button>
+                        <button type="button" ng-click="exportUsersList($event);" class="btn btn-warning btn-sm pull-right"><span class="glyphicon glyphicon-export"></span> Export List</button>
+                      </div>
+                    </div>
+                    <div class="row body">
+                      <div class="col-xs-12 full-height" style="padding:0 5px;">
+                        <div class="table-responsive full-height">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th><span title="Select All" class="checkbox glyphicon glyphicon-unchecked" ng-click="selectAllRows($event);"></span></th>
+                                <th data-orderby="loginId" ng-click="setEngineersOrderBy($event);" style="cursor:pointer;" title="Order by Login ID">Login ID <span class="caret"></span></th>
+                                <th data-orderby="engineerName" ng-click="setEngineersOrderBy($event);" style="cursor:pointer;" title="Order by Expert's Name">Engineer Name <span class="caret"></span></th>
+                                <th data-orderby="location" ng-click="setEngineersOrderBy($event);" style="cursor:pointer;" title="Order by Location">Location <span class="caret"></span></th>
+                                <th data-orderby="partnerName" ng-click="setEngineersOrderBy($event);" style="cursor:pointer;" title="Order by Program">Partner <span class="caret"></span></th>
+                              </tr>
+                            </thead>
+                            <tbody ng-click="tableBodyClick($event);">
+                              <tr ng-repeat="engineer in engineers | orderBy:orderEngineersBy" data-loginid="{{engineer.loginId}}">
+                                <td><span class="checkbox glyphicon glyphicon-unchecked" title="Select user"></span></td>
+                                <td ng-bind="engineer.loginId"></td>
+                                <td ng-bind="engineer.engineerName"></td>
+                                <td ng-bind="engineer.location"></td>
+                                <td ng-bind="engineer.partnerName"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!-- ./card -->
+                </div>
+              </div><!-- ./search-result -->
+              <div class="row alert-msg" style="display:none;">
+                <div class="col-xs-12">
+                  <div class="card-msg text-center">
+                    Enginners List will be populated here...
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container-fluid add sub-overlay full-height">
+              <div ng-click="closeAddUserCard($event);" class="row full-height overlay-dismiss">
+                <div class="add resource-card full-height">
+                  <div class="header">
+                    <b style="font-family:verdana;font-size:15px;line-height:30px;">Enter Engineer's details</b>
+                    <span ng-click="closeAddUserCard($event);" class="close" style="font-size:26px;">&times;</span>
+                  </div>
+                  <div class="body">
+                    <input type="text" class="form-control" ng-model="engLoginId" placeholder="Login ID">
+                    <input type="text" class="form-control" ng-model="engName" placeholder="Name">
+                    <input type="text" class="form-control" ng-model="engLocation" placeholder="Location">
+                    <select class="form-control" ng-model="selectedEngineerPartner" ng-options="p.partnerName for p in gsmcPartners"></select>
+                    <button type="button" class="btn btn-success" ng-click="createNewEngineer($event);">Add Engineer</button>
+                  </div>
+                  <div class="footer">
+                    Enter Engineer's details, select the Partner Name, and click on Add Engineer.
+                  </div>
+                </div>
+              </div>
+            </div><!-- ./add-sub-overlay -->
+          </div><!-- ./tab-pane -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

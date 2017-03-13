@@ -1,0 +1,68 @@
+/******** Navbar styling ********/
+#app-navbar {
+  background-color: #449d44;
+  padding: 0;
+}
+#appNavCollapse {
+  text-align: center;
+}
+button.navbar-toggle {
+  background-color: #182;
+  z-index: 1;
+}
+button.navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+.navbar {
+  border-radius: 0;
+  height: 52px;
+  margin-bottom: 0;
+}
+.navbar-brand {
+  margin-top: -1px;
+  margin-right: 5px;
+}
+.navbar .nav li a {
+  border-right: 1px solid #172;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+.navbar .nav li a.active {
+  text-decoration: none;
+  background-color: #182;
+}
+.navbar .nav li:last-child a {
+  border-right: 1px solid transparent;
+}
+.nav>li>a:focus, .nav>li>a:hover {
+  text-decoration: none;
+  background-color: #182;
+}
+.navbar .dropdown-menu {
+  background-color: #449d44;
+}
+.navbar .dropdown-menu>li>a:focus,.navbar .dropdown-menu>li>a:hover {
+    text-decoration: none;
+    background-color: #182;
+}
+@media (max-width:767px) {
+  #appNavCollapse {
+    background-color: #449d44;
+    border-bottom: 1px solid #182;
+    padding: 0;
+    position: relative;
+    top: 1px; /* equal to navbar bottom padding*/
+    z-index: 4;
+  }
+  .navbar-nav {
+    margin: 1px 0 0 0;
+  }
+  .navbar .nav li a {
+    border-right: none;
+  }
+  .nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: #182;
+  }
+}

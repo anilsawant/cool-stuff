@@ -1,0 +1,16 @@
+<div ng-include="'templates/navbar.html'"></div>
+<div class="container-fluid full-height" style="padding-top:41px;">
+  <div class="row full-height">
+    <div class="col-xs-12 full-height">
+      <h1 class="text-center" style="color:#eee;height:50px;margin:20px 0 0;">Home page</h1>
+      <div class="display-flex" style="height:calc(100% - 140px);">
+        <div class="margin-auto text-center">
+          <button type="button" class="btn btn-success btn-lg" ng-click="redirectRouteTo('library');">Library</button>
+          <button type="button" class="btn btn-primary btn-lg" ng-click="redirectRouteTo('users');">Users</button>
+          <button type="button" class="btn btn-danger btn-lg" ng-click="redirectRouteTo('logs');">Logs Viewer</button>
+          <button type="button" class="btn btn-info btn-lg" ng-click="redirectRouteTo('org-structure');">Org Structure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

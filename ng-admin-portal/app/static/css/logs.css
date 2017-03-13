@@ -1,0 +1,51 @@
+.logs-container input {
+  width: 100%;
+}
+.logs-container input,
+.logs-container button {
+  height: 34px;
+}
+.logs {
+  margin: 5px 0;
+}
+.logs .header {
+  background-color: #555;
+  color: #eee;
+  padding: 7px 15px;
+}
+
+table {
+  border: 1px solid #449d44;
+  width: 100%;
+}
+table thead {
+  background-color: #777;
+}
+table tbody {
+  color: #000;
+  background-color: #fff;
+}
+table thead th {
+  padding: 15px;
+  text-align: center;
+}
+table tbody td {
+  padding: 10px;
+}
+table tr {
+  border-bottom: 1px solid #449d44;
+}
+table tr:nth-child(2n) {
+  background-color: #f2f2f2;
+}
+table td,
+table th {
+  border-right: 1px solid #449d44;
+}
+table .glyphicon-trash {
+  color: #333;
+  cursor: pointer;
+}
+table .glyphicon-trash:hover {
+  color: #000;
+}

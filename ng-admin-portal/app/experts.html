@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Experts | FA Admin</title>
+    <link rel="stylesheet" href="includes/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="includes/css/main.css" media="screen">
+    <link rel="stylesheet" href="includes/css/util.css" media="screen">
+    <link rel="stylesheet" href="includes/css/navbar.css" media="screen">
+    <link rel="stylesheet" href="includes/css/users.css" media="screen" charset="utf-8">
+  </head>
+  <body style="overflow:hidden;display:none;">
+    <!-- Navbar will be inserted here -->
+    <div class="container-fluid" id="app-navbar">
+      <nav class="navbar">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#appNavCollapse" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand fa-logo" href=""></a>
+            <span style="color:#fff;font-size:18px;display:inline-block;margin-top:12px;font-family:segoe-ui-bold;">Admin Portal</span>
+          </div>
+          <div class="collapse navbar-collapse padding-none" id="appNavCollapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="logs.html">Logs</a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="active dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manage Users <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Experts</a></li>
+                  <li><a href="engineers.html">Engineers</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="library.html">Library Resources</a>
+              </li>
+              <li>
+                <a href="#"><span id="loggedInUser">ADMIN </span> &nbsp;<span class="glyphicon glyphicon-user"></span></a>
+              </li>
+              <li><a href="#" onclick="logout();" title="Logout"><span class="glyphicon glyphicon-log-out"></span></a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+
+    <!-- App Views will be rendered here-->
+    <div class="container-fluid" id="app-view" style="padding:0 100px;">
+      <div class="experts-container full-height">
+        <div class="row">
+          <h4 style="text-align:center;color:#fff;">List of Experts</h4>
+        </div>
+        <div class="row" style="margin-bottom:5px;">
+          <div class="col-xs-9" style="padding-right:5px;">
+            <input type="text" class="txt-search-user" placeholder="Search: Enter comma separated Login Ids">
+            <span class="search-icon glyphicon glyphicon-search"></span>
+          </div>
+          <!-- <div class="col-xs-2" style="padding-left:0;padding-right:5px;">
+            <button type="button" title="Add Expert" class="btn-green btn-show-add-expert btn-block overflow-ellipsis"><span class="glyphicon glyphicon-plus-sign"></span> Add Expert</button>
+          </div>
+          <div class="col-xs-2" style="padding-left:0;">
+            <button type="button" title="Export List" class="btn-green btn-export-expert btn-block overflow-ellipsis"><span class="glyphicon glyphicon-export"></span> Export List</button>
+          </div> -->
+          <div class="col-xs-3" style="padding-left:0;">
+            <div class="table-operations">
+              <span title="Add Expert"><span class="glyphicon glyphicon-plus-sign btn-show-add-expert" title="Add Expert"></span></span>
+              <span title="Export List"><span class="glyphicon glyphicon-export" title="Export List"></span></span>
+              <span title="Reset selected expert's password(s)"><span class="glyphicon glyphicon-repeat disabled" title="Reset selected expert's password(s)"></span></span>
+              <span title="Delete selected expert(s)"><span class="glyphicon glyphicon-trash disabled" title="Delete selected expert(s)"></span></span>
+            </div>
+          </div>
+        </div>
+        <div class="row table-row" style="display:block;">
+          <div class="col-xs-12 full-height">
+            <div class="table-responsive full-height">
+              <table>
+                <thead>
+                  <tr>
+                    <th><span title="Select All" class="checkbox glyphicon glyphicon-unchecked"></span></th>
+                    <th>Login ID</th>
+                    <th>Expert Name</th>
+                    <th>Location</th>
+                    <th>Program</th>
+                    <th>Team</th>
+                    <th>Skills</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-loginid="101" data-role="">
+                    <td><span class="checkbox glyphicon glyphicon-unchecked" title="Select expert"></span></td>
+                    <td>101</td>
+                    <td>User Name</td>
+                    <td>Location</td>
+                    <td>Program Name</td>
+                    <td>Team Name</td>
+                    <td>Skills</td>
+                  </tr>
+                  <tr data-loginid="102" data-role="">
+                    <td><span class="checkbox glyphicon glyphicon-unchecked" title="Select user"></span></td>
+                    <td>102</td>
+                    <td>User Name</td>
+                    <td>Location</td>
+                    <td>Program Name</td>
+                    <td>Team Name</td>
+                    <td>Skills</td>
+                  </tr>
+                  <tr data-loginid="103" data-role="">
+                    <td><span class="checkbox glyphicon glyphicon-unchecked" title="Select user"></span></td>
+                    <td>103</td>
+                    <td>User Name</td>
+                    <td>Location</td>
+                    <td>Program Name</td>
+                    <td>Team Name</td>
+                    <td>Skills</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row table-row-msg text-center" style="display:none">
+          Experts List will be populated here...
+        </div>
+      </div>
+    </div><!-- /#app-view -->
+
+    <div class="overlay">
+      <div class="card add-user expert">
+        <span class="close-card">&times;</span>
+        <h4 style="margin:-15px 0 15px;color: #fff;">Expert Details</h4>
+        <div class="body">
+          <input type="text" class="txt-loginId" placeholder="Enter Login ID">
+          <input type="text" class="txt-userName" placeholder="Enter User Name">
+          <input type="text" class="txt-location" placeholder="Enter Location">
+          <select class="form-control select-programName">
+            <option value="">Loading...</option>
+          </select>
+          <select class="form-control select-teamName">
+            <option value="">Loading...</option>
+          </select>
+          <input type="text" class="txt-skills" placeholder="Enter comma/space separated Skills">
+          <button type="button" class="btn-green btn-block btn-add-expert">Add Expert</button>
+        </div>
+        <div class="footer">
+        </div>
+      </div>
+    </div>
+
+    <script src="includes/js/jquery.min.js"></script>
+    <script src="includes/js/bootstrap.min.js"></script>
+    <script src="includes/js/firebase.min.js"></script>
+    <script src="includes/js/util.js"></script>
+    <script src="includes/js/experts.js"></script>
+  </body>
+</html>

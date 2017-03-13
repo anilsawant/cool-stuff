@@ -1,0 +1,142 @@
+/*******************************************************************************
+											Loading animation
+********************************************************************************/
+.loading-outer {
+	align-items: center;
+	display: flex;
+	background-color: rgba(40,40,40,.9);
+	flex-direction: column;
+	height: 100%;
+	justify-content: center;
+	left: 0;
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	transition: opacity 1s ease;
+	width: 100%;
+	z-index: 10; /* should be higher than the container' */
+}
+.loading {
+	background-image: url(../img/loading-white.png);
+	background-size: cover;
+	display: inline-block;
+	height: 75px;
+	width: 75px;
+}
+.loading-text {
+	color: #eee;
+	margin-top: 5px;
+}
+@-moz-keyframes spin-acw {
+	100%{
+		-moz-transform: rotate(-360deg);
+	}
+}
+@-webkit-keyframes spin-acw {
+	100%{
+		-webkit-transform: rotate(-360deg);
+	}
+}
+@keyframes spin-acw {
+	100%{
+		transform: rotate(-360deg);
+		-webkit-transform: rotate(-360deg);
+	}
+}
+.spin-acw {
+	-webkit-animation: spin-acw 2s linear infinite;
+	-moz-animation: spin-acw 2s linear infinite;
+	animation: spin-acw 2s linear infinite;
+}
+@-moz-keyframes spin-cw {
+	100%{
+		-moz-transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes spin-cw {
+	100%{
+		-webkit-transform: rotate(360deg);
+	}
+}
+@keyframes spin-cw {
+	100%{
+		transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+	}
+}
+.spin-cw {
+	-webkit-animation: spin-cw 2s linear infinite;
+	-moz-animation: spin-cw 2s linear infinite;
+	animation: spin-cw 2s linear infinite;
+}
+/*  Loading animation end*/
+
+
+/*******************************************************************************
+										Sliding/Fading Messages Banners
+********************************************************************************/
+.msg-container {
+  background-color: transparent;
+  bottom: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  color: #eee;
+  display: flex;
+  /*font-family: monospace;*/
+  font-size: 16px;
+  /*min-height: 50px;*/
+  left: 0;
+  opacity: 0;
+  padding: 5px 20px 5px 5px;
+  position: fixed;
+  text-align: center;
+  transition: opacity 1s ease;
+  width: 100%;
+}
+.msg-container.default {
+	color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.msg-container.primary {
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+.msg-container.success {
+  background-color: #5cb85c;
+  border: 1px solid #4cae4c;
+}
+.msg-container.info {
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+.msg-container.warning {
+  background-color: #f0ad4e;
+  border: 1px solid #eea236;
+}
+.msg-container.error {
+  background-color: #c9302c;
+  border: 1px solid #ac2925;
+}
+.msg-container .msg {
+  margin: auto;
+  display: block;
+}
+.msg-container .close-msg {
+	color: #eee;
+	cursor: pointer;
+	float: right;
+	font-size: 24px;
+	left: calc(100% - 16px);
+  margin-top: auto;
+  margin-bottom: auto;
+	position: relative;
+	top: -2px;
+}
+.msg-container.default .close-msg {
+	color: #999;
+}
+.msg-container .close-msg:active {
+	color: #ddd;
+}
+/******** End Msg Banners ********/

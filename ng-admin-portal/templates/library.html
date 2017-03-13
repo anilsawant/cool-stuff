@@ -1,0 +1,140 @@
+<div ng-include="'templates/navbar.html'"></div>
+<div class="container-fluid full-height library-container" style="padding-top:41px;">
+  <div class="row">
+    <div class="col-xs-12" style="padding:10px 15px;">
+      <button type="button" ng-click="toggleSearchRow();" class="btn btn-primary">Search <span class="glyphicon glyphicon-chevron-up search-chevron"></span></button>
+      <button type="button" ng-click="toggleManageDevicesRow();" class="btn btn-success">Manage Devices <span class="glyphicon glyphicon-chevron-down manage-chevron"></span></button>
+    </div>
+  </div>
+  <div class="row manage-devices" ng-controller="ManageDevicesController" style="display:none;">
+    <div class="col-xs-12 col-sm-4 control type" style="margin:3px 0;">
+      <div class="input-group">
+        <select class="form-control" ng-change="selectChange('type');" ng-model="selectedType" ng-options="x.name for x in deviceTypes"></select>
+        <span class="input-group-btn">
+          <button class="btn btn-default" ng-click="toggleSlider($event);" title="Add new type" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+          <button class="btn btn-default" ng-click="deleteDeviceDetail('type');" title="Remove this type" type="button"><span class="glyphicon glyphicon-remove"></span></button>
+        </span>
+      </div>
+      <div class="slider">
+        <input type="text" class="form-control" placeholder="Enter new type">
+        <span ng-click="addNewDeviceDetail($event,'type');" class="addon glyphicon glyphicon-ok" title="Confirm"></span>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 control brand" style="margin:3px 0;">
+      <div class="input-group disabled">
+        <select class="form-control" ng-change="selectChange('brand');" ng-model="selectedBrand" ng-options="x.name for x in deviceBrands"></select>
+        <span class="input-group-btn">
+          <button class="btn btn-default" ng-click="toggleSlider($event);" title="Add new brand" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+          <button class="btn btn-default" ng-click="deleteDeviceDetail('brand');" title="Remove this brand" type="button"><span class="glyphicon glyphicon-remove"></span></button>
+        </span>
+      </div>
+      <div class="slider">
+        <input type="text" class="form-control" placeholder="Enter new brand">
+        <span ng-click="addNewDeviceDetail($event,'brand');" class="addon glyphicon glyphicon-ok" title="Confirm"></span>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 control model" style="margin:3px 0;">
+      <div class="input-group disabled">
+        <select class="form-control" ng-change="selectChange('model');" ng-model="selectedModel" ng-options="x.name for x in deviceModels"></select>
+        <span class="input-group-btn">
+          <button class="btn btn-default" ng-click="toggleSlider($event);" title="Add new model" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+          <button class="btn btn-default" ng-click="deleteDeviceDetail('model');" title="Remove this model" type="button"><span class="glyphicon glyphicon-remove"></span></button>
+        </span>
+      </div>
+      <div class="slider">
+        <input type="text" class="form-control" placeholder="Enter new model">
+        <span ng-click="addNewDeviceDetail($event,'model');" class="addon glyphicon glyphicon-ok" title="Confirm"></span>
+      </div>
+    </div>
+  </div>
+  <div class="row search-library">
+    <div class="col-xs-12 col-md-5" style="color:#eee;font-size:13px;padding-top:9px;">
+      Search resources by selecting the device details:
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-2" style="margin:3px 0;">
+      <select class="form-control no-select type" ng-change="selectSearchChange('type');" ng-model="selectedType" ng-options="x.name for x in deviceTypes"></select>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-2" style="margin:3px 0;">
+      <select class="form-control no-select brand" ng-change="selectSearchChange('brand');" ng-model="selectedBrand" ng-options="x.name for x in deviceBrands"></select>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-2" style="margin:3px 0;">
+      <select class="form-control no-select model" ng-change="selectSearchChange('model');" ng-model="selectedModel" ng-options="x.name for x in deviceModels"></select>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-2" style="margin:3px 0;">
+      <button ng-show="selectedModel.value" type="button" ng-click="showAddResourceCard();" class="btn btn-success btn-block">Add Resource</button>
+    </div>
+    <div class="col-xs-12 results-row" style="padding-top:5px;">
+      <div class="container-fluid padding-none">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="panel panel-primary" style="display:none;">
+              <div class="panel-heading pos-rel">
+                Available Resources
+              </div>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th style="width:40%;">Name</th>
+                      <th>Size</th>
+                      <th>Type</th>
+                      <th>Last Modified</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Fiel name</td>
+                      <td>Size</td>
+                      <td>Type</td>
+                      <td>Updated</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="alert alert-danger" role="alert" style="display:none;">
+              <button ng-click="hideSearchMsg();"type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <span class="msg">Something went wrong!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay add-video">
+  <div class="display-flex full-height">
+    <div class="panel panel-dark">
+      <div class="panel-heading">
+        Add a new resource <span class="close">&times;</span>
+      </div>
+      <div class="panel-body">
+        <div class="input-group" style="margin-bottom:10px;">
+          <input class="form-control" ng-bind="selectedFile" style="pointer-events:none;" placeholder="No file selected">
+          <span class="input-group-btn">
+            <button class="btn btn-success" onclick="this.parentNode.querySelector('input').click();">Select file</button>
+            <input type="file" name="name" ng-model="selectedFile" class="input-file" style="display:none;">
+          </span>
+        </div>
+        <input type="text" class="form-control txt-file-description" placeholder="Add resource description here">
+        <p style="font-size:10px;">Note: Special characters are not allowed in description. Will be replaced by _ (underscores)</p>
+        <div class="alert alert-danger" role="alert" style="margin:10px 0;display:none;font-size:14px;padding:10px;">
+          <button ng-click="hideAddMsg();"type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span class="msg">Something went wrong!</span>
+        </div>
+        <button type="button" class="btn btn-block btn-primary btn-start-upload">Upload</button>
+        <div class="uploading-div" style="padding-top:10px;">
+          <span class="status">Uploading...</span>
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+              0%
+            </div>
+          </div>
+          <button type="button" class="btn btn-warning btn-sm btn-pause-resume-upload">Pause</button>
+          <button type="button" class="btn btn-danger btn-sm btn-cancel-upload">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

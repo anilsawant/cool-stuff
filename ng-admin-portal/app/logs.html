@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Logs | FA Admin</title>
+    <link rel="stylesheet" href="includes/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="includes/css/main.css" media="screen">
+    <link rel="stylesheet" href="includes/css/util.css" media="screen">
+    <link rel="stylesheet" href="includes/css/navbar.css" media="screen">
+    <link rel="stylesheet" href="includes/css/logs.css" media="screen">
+  </head>
+  <body style="overflow:hidden;display:none;">
+    <!-- Navbar will be inserted here -->
+    <div class="container-fluid" id="app-navbar">
+      <nav class="navbar">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#appNavCollapse" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand fa-logo" href=""></a>
+            <span style="color:#fff;font-size:18px;display:inline-block;margin-top:12px;font-family:segoe-ui-bold;">Admin Portal</span>
+          </div>
+          <div class="collapse navbar-collapse padding-none" id="appNavCollapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="#" class="active">Logs</a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="active dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manage Users <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="experts.html">Experts</a></li>
+                  <li><a href="engineers.html">Engineers</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="library.html">Library Resources</a>
+              </li>
+              <li>
+                <a href="#"><span id="loggedInUser">ADMIN </span> &nbsp;<span class="glyphicon glyphicon-user"></span></a>
+              </li>
+              <li><a href="#" onclick="logout();" title="Logout"><span class="glyphicon glyphicon-log-out"></span></a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+
+    <!-- App Views will be rendered here-->
+    <div class="container-fluid" id="app-view" style="padding:0 65px;">
+      <div class="logs-container full-height">
+        <div class="row">
+          <h4 style="text-align:center;color:#fff;">Application Logs</h4>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">
+            <input type="text" class="form-control txt-start-date" placeholder="Start Date (yyyy-MM-dd)" title="Enter start date in yyyy-MM-dd">
+          </div>
+          <div class="col-xs-3">
+            <input type="text" class="form-control txt-end-date" placeholder="End Date (yyyy-MM-dd)" title="Enter end date in yyyy-MM-dd">
+          </div>
+          <div class="col-xs-3">
+            <button type="button" title="View Logs" class="btn-green btn-view-logs btn-block overflow-ellipsis"><span class="glyphicon glyphicon-eye-open"></span> View Logs</button>
+          </div>
+          <div class="col-xs-3">
+            <button type="button" title="Export Logs" class="btn-green btn-export-logs btn-block overflow-ellipsis disabled"><span class="glyphicon glyphicon-export"></span> Export Logs</button>
+          </div>
+        </div>
+        <div class="row logs" style="display:none;">
+          <div class="col-xs-12 full-height padding-none">
+            <div class="table-responsive full-height">
+              <table>
+                <tbody>
+                  <tr>
+                    <td >Apps Downloaded</td>
+                    <td class="app-download-count" style="width:20%;">NA</td>
+                  </tr>
+                  <tr>
+                    <td>Logins</td>
+                    <td class="login-count">NA</td>
+                  </tr>
+                  <tr>
+                    <td>Files Downloaded</td>
+                    <td class="files-download-count">NA</td>
+                  </tr>
+                  <tr>
+                    <td>Video Calls</td>
+                    <td class="video-calls-count">NA</td>
+                  </tr>
+                  <tr>
+                    <td>Annotation Calls</td>
+                    <td class="annotation-calls-count">NA</td>
+                  </tr>
+                  <tr>
+                    <td>Messages</td>
+                    <td class="messages-count">NA</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script src="includes/js/jquery.min.js"></script>
+    <script src="includes/js/bootstrap.min.js"></script>
+    <script src="includes/js/firebase.min.js"></script>
+    <script src="includes/js/util.js"></script>
+    <script src="includes/js/logs.js"></script>
+  </body>
+</html>

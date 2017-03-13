@@ -1,0 +1,141 @@
+#app-view {
+  background-color: #222;
+  overflow: hidden;
+}
+#app-view {
+  font-size: 16px;
+}
+.txt-search-user {
+  display: block;
+  padding: 4px 10px;
+  width: 100%;
+}
+.search-icon {
+  font-size: 20px;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  color: #aaa;
+}
+.table-operations {
+  background-color: #449d44;
+  border: 1px solid green;
+  color: #fff;
+  display: flex;
+  padding: 1px;
+}
+.table-operations>span {
+  margin: auto;
+}
+.table-operations span.glyphicon {
+  border-radius: 5px !important;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px 5px 3px 4px;
+  transition: color .5s ease;
+}
+.table-operations span.glyphicon:hover {
+  background-color: #182;
+}
+.table-operations span.glyphicon.disabled {
+  color: #aaa;
+  pointer-events: none;
+}
+.table-row {
+  height: calc(100% - 80px);
+  overflow: auto;
+}
+.table-row-msg {
+  color:#aaa;
+  font-size:20px;
+  margin-top: 30px;
+}
+.table-responsive {
+  overflow-y: auto;
+}
+table {
+  border: 1px solid #449d44;
+  width: 100%;
+}
+table thead {
+  background-color: #777;
+  color: #fff;
+}
+table tbody {
+  color: #000;
+  background-color: #fff;
+}
+table thead th {
+  text-align: center;
+}
+table tbody td {
+  padding: 0 10px;
+}
+table span {
+  cursor: pointer;
+}
+table td:first-child,
+table .td-reset,
+table .td-delete {
+  text-align: center;
+}
+table tr {
+  border-bottom: 1px solid #449d44;
+}
+table tr:nth-child(2n) {
+  background-color: #f2f2f2;
+}
+table td,
+table th {
+  border-right: 1px solid #449d44;
+}
+/******** Overlay Card ********/
+.overlay {
+  background-color: rgba(210,210,210,.7);
+  display: none; /* <> flex */
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 11;
+}
+.overlay .card {
+  background-color: #404040;
+  box-shadow: 2px 2px 4px #131313;
+  font-size: 16px;
+  margin: auto;
+  max-width: 90%;
+  position: relative;
+  padding: 30px 40px;
+  width: 440px;
+}
+.overlay .card .close-card {
+  color: #fff;
+  cursor: pointer;
+  font-size: 26px;
+  line-height: 26px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+/******** End Overlay Card ********/
+
+/******** Add user modal ********/
+.card.add-user .body input {
+  display: block;
+  padding: 5px 10px;
+  width: 100%;
+}
+.card.add-user select.form-control {
+  height: 34px;
+  font-size: 16px;
+  padding: 4px 8px;
+}
+.card.add-user .body>* {
+  margin-bottom: 5px;
+}
+.card.add-user .body>*:last-child {
+  margin-bottom: 0;
+}
+/******** End add device modal ********/

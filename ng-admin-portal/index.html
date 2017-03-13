@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="gsmcApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title ng-bind="pageTitle">Admin | GSMC</title>
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/import.css">
+
+    <!-- Scripts -->
+    <script src="static/js/jquery.min.js" charset="utf-8"></script>
+    <script src="static/js/angular.min.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="ng-view" style="height:100%;width:100%;"></div>
+
+    <script src="static/js/angular-route.min.js" charset="utf-8"></script>
+    <script src="static/js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="static/js/bootbox.min.js" charset="utf-8"></script>
+    <script src="static/js/firebase.min.js"></script>
+    <script src="static/js/angularfire.min.js"></script>
+    <script src="app.module.js" charset="utf-8"></script>
+    <script src="app.services.js" charset="utf-8"></script>
+    <script src="controllers/HomeController.js" charset="utf-8"></script>
+    <script src="controllers/LibraryController.js" charset="utf-8"></script>
+    <script src="controllers/LoginController.js" charset="utf-8"></script>
+    <script src="controllers/LogsController.js" charset="utf-8"></script>
+    <script src="controllers/OrgController.js" charset="utf-8"></script>
+    <script src="controllers/RootController.js" charset="utf-8"></script>
+    <script src="controllers/UsersController.js" charset="utf-8"></script>
+  </body>
+</html>

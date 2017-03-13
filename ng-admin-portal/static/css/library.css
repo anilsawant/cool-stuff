@@ -1,0 +1,91 @@
+.library-container .manage-devices,
+.library-container .search-library {
+  border-top: 1px solid #555;
+  padding-top: 5px;
+}
+.library-container .input-group.disabled {
+  pointer-events: none;
+}
+.library-container .input-group.disabled .form-control,
+.library-container .input-group.disabled .btn {
+  background-color: #aaa;
+}
+.library-container .slider {
+  display: none;
+  margin-top: 1px;
+}
+.library-container .slider>* {
+  float: left;
+}
+.library-container .slider .form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  display: inline-block;
+  width: calc(100% - 40px);
+}
+.library-container .slider .addon {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  background-color: #5cb85c;
+  border-left: 1px solid #0a2;
+  color: #fff;
+  display: inline-block;
+  margin-top: -1px;
+  padding: 10px 12px;
+  height: 34px;
+  width: 39px;
+}
+.library-container .addon,
+.library-container .input-group-addon {
+  cursor: pointer;
+}
+
+
+/******** Overlay Card ********/
+.overlay {
+  background-color: rgba(20,20,20,.7);
+  display: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1040;
+}
+.overlay .panel {
+  background-color: #404040;
+  box-shadow: 1px 1px 1px rgba(10,10,10,.5), -1px 1px 1px rgba(10,10,10,.5), 0 2px 2px rgba(4,4,4,.5);
+  color: #fff;
+  font-size: 16px;
+  margin: auto;
+  max-width: 90%;
+  position: relative;
+  width: 540px;
+}
+/******** End Overlay Card ********/
+/******** Add video card ********/
+.card.add-video input,
+.card.add-video button {
+  min-height: 40px;
+}
+.card.add-video input {
+  display: block;
+  width: 100%;
+}
+.card.add-video .status {
+  margin-bottom: 10px;
+  display: inline-block;
+}
+.card.add-video .progress {
+  margin-bottom: 10px;
+}
+.card.add-video .uploading-div button {
+  width: calc(50% - 2px);
+}
+.card.add-video .btn-pause-resume-upload {
+  float: left;
+}
+.card.add-video .btn-cancel-upload {
+  float: right;
+}
+/******** End Add video card ********/

@@ -1,0 +1,60 @@
+/******** Navbar styling ********/
+.navbar {
+  background-color: #449d44; 
+  border-radius: 0;
+  margin-bottom: 0;
+  min-height: 40px;
+}
+.navbar-brand {
+  margin-right: 5px;
+}
+.navbar-toggle {
+  background-color: #182;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 7px 10px;
+  z-index: 1;
+}
+.navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+.navbar-nav {
+  margin: 7.5px 0;
+}
+.navbar .nav li a {
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+.nav>li>a:focus,
+.nav>li>a:hover,
+.navbar .nav li a.active {
+  text-decoration: none;
+  background-color: #182;
+}
+.navbar-nav>li>a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.navbar .nav li a {
+  border-right: none;
+}
+.navbar .dropdown-menu {
+  background-color: #449d44;
+}
+.navbar .dropdown-menu>li>a:focus,.navbar .dropdown-menu>li>a:hover {
+    text-decoration: none;
+    background-color: #182;
+}
+@media (min-width:768px) {
+  .navbar-nav {
+    margin: 0;
+    margin-right: -15px;
+  }
+  .navbar .nav li a {
+    border-right: 1px solid #172;
+  }
+  .navbar .nav li:last-child a {
+    border-right: 1px solid transparent;
+  }
+}

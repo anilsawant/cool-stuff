@@ -1,0 +1,20 @@
+.logs-container .input-group .form-control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.logs-container .date-selection {
+   color: #fff;
+   font-size: 15px;
+   margin-bottom: 15px ;
+   margin-top: 15px ;
+}
+.logs-container .date-selection>* {
+  margin-top: 5px;
+}
+.logs-container .date-label {
+  display: inline-block;
+  margin-top: 5px;
+}
+.logs-container table thead {
+  font-family: verdana;
+}

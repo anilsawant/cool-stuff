@@ -1,0 +1,154 @@
+<div class="container full-height">
+  <div class="row device-details">
+    <div class="col-sm-4">
+      <label class="row-label">Select Device Details</label>
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control no-select" id="selectDeviceType">
+        <option value="">Select Type</option>
+        <option value="0">Loading...</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control no-select" id="selectDeviceBrand">
+        <option value="">Select Brand</option>
+        <option value="0">Loading...</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <select class="form-control no-select" id="selectDeviceModel">
+        <option value="">Select Model</option>
+        <option value="0">Loading...</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <button type="button" class="btn-block btn-green" id="btnManageDevices">Manage Devices</button>
+    </div>
+  </div>
+  <div class="row no-select text-center resource-container-header disabled">
+    All Available Resources
+    <span class="icon-add-resource glyphicon glyphicon-plus pull-right" title="Add resource"></span>
+  </div>
+  <div class="row resource-container text-center">
+    <div class="col-xs-12 full-height resource-container-msg">
+      Please select Device Details above to see resources
+    </div>
+    <div class="col-xs-12 resources-body">
+      <div class="row display-flex full-height">
+        <div class="col-xs-4" style="border-right:1px solid #222;">
+          <h3 class="col-title">Videos</h3>
+          <div class="video-grid row">
+            <!--<div class="col-xs-6">
+              <div class="video-tile">
+                <span class="full-screen" title="Full screen">[]</span>
+                <span class="delete" title="Delete video" data-fullpath="">&times;</span>
+                <video src="" preload="metadata"></video>
+                <div class="video-overlay">
+                  <span class="icon-play-video"></span>
+                  <div class="video-metadata">
+                    <p class="video-desc overflow-ellipsis">LCD Replacement</p><span class="time-created">October 7, 2016</span>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div class="col-xs-4" style="border-right:1px solid #222;">
+          <h3 class="col-title">Documents</h3>
+          <ul class="list-group documents-list text-left">
+            <!-- <li class="list-group-item">
+              <span class="file-desc">Cras justo odio</span>
+              <span class="file-size">3.2mb</span>
+              <span class="close" title="Delete video" data-src="" data-fullpath="">&times;</span>
+          </li> -->
+          </ul>
+        </div>
+        <div class="col-xs-4">
+          <h3 class="col-title">Images</h3>
+          <div class="row images-grid">
+            <!-- <div class="col-xs-6">
+              <img src="" alt="" data-fullpath="">
+              <div class="metadata">
+                <span class="file-desc">Cras justo odio</span>
+                <span class="close" title="Delete image" data-fullpath="" data-desc="">&times;</span>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div><!-- /#app-view -->
+
+  <div class="overlay">
+  <div class="card manage-devices">
+    <span class="close-card">&times;</span>
+    <h3 style="margin: -15px 0 15px;">Device Manager</h3>
+    <p style="font-size:12px;margin-top:-10px;">Note: Special characters are not allowed in device details.<br>Will be replaced by _ (underscores)</p>
+    <div class="device-selection type">
+      <div class="input-group">
+        <select class="form-control select-device type"></select>
+        <span class="input-group-btn">
+          <button class="btn btn-default add-slider-toggle glyphicon glyphicon-plus" title="Add a new device type" type="button"></button>
+          <button class="btn btn-default glyphicon glyphicon-remove" title="Remove this device type" type="button"></button>
+        </span>
+      </div><!-- /input-group -->
+      <div class="add-slider" style="display:none;">
+        <input type="text" class="form-control" placeholder="Enter a new device type">
+        <button type="button" class="btn btn-success btn-add type">Add</button>
+        <button type="button" class="btn btn-warning" onclick="$(this.parentNode).slideUp();">Cancel</button>
+      </div>
+    </div>
+    <div class="device-selection brand">
+      <div class="input-group disabled">
+        <select class="form-control select-device brand"></select>
+        <span class="input-group-btn">
+          <button class="btn btn-default add-slider-toggle glyphicon glyphicon-plus" title="Add a new device brand" type="button"></button>
+          <button class="btn btn-default glyphicon glyphicon-remove" title="Remove this device brand" type="button"></button>
+        </span>
+      </div><!-- /input-group -->
+      <div class="add-slider" style="display:none;">
+        <input type="text" class="form-control" placeholder="Enter a new device brand">
+        <button type="button" class="btn btn-success btn-add brand">Add</button>
+        <button type="button" class="btn btn-warning" onclick="$(this.parentNode).slideUp();">Cancel</button>
+      </div>
+    </div>
+    <div class="device-selection model">
+      <div class="input-group disabled">
+        <select class="form-control select-device model"></select>
+        <span class="input-group-btn">
+          <button class="btn btn-default add-slider-toggle glyphicon glyphicon-plus" title="Add a new device model" type="button"></button>
+          <button class="btn btn-default glyphicon glyphicon-remove" title="Remove this device model" type="button"></button>
+        </span>
+      </div><!-- /input-group -->
+      <div class="add-slider" style="display:none;">
+        <input type="text" class="form-control" placeholder="Enter a new device model">
+        <button type="button" class="btn btn-success btn-add model">Add</button>
+        <button type="button" class="btn btn-warning" onclick="$(this.parentNode).slideUp();">Cancel</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="overlay">
+    <div class="card add-video">
+      <span class="close-card">&times;</span>
+      <h3 style="margin:-15px 0 15px;">Add a new resource</h3>
+      <input type="file" name="name" class="input-file">
+      <input type="text"class="form-control txt-file-description" placeholder="Add resource description here">
+      <p style="font-size:12px;margin-top:-10px;">Note: Special characters are not allowed in description.<br>Will be replaced by _ (underscores)</p>
+      <button type="button" class="btn-block btn-green btn-start-upload">Upload</button>
+      <div class="uploading-div" style="display:none;">
+        <span class="status">Uploading...</span>
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+            0%
+          </div>
+        </div>
+        <button type="button" class="btn-orange btn-pause-resume-upload">Pause</button>
+        <button type="button" class="btn-green btn-cancel-upload">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
